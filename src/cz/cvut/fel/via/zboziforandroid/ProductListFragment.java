@@ -38,7 +38,7 @@ public class ProductListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
         this.mProducts = new ArrayList<Product>(Database.PRODUCTS);
-        setListAdapter(new ProductListAdapter(getActivity(), R.layout.product_row, this.mProducts));        
+        setListAdapter(new ProductListAdapter(getActivity(), R.layout.product_row, this.mProducts)); 
     }
 
     @Override
@@ -47,7 +47,7 @@ public class ProductListFragment extends ListFragment {
         if (savedInstanceState != null && savedInstanceState
                 .containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
-        }
+        }        
     }
 
     @Override

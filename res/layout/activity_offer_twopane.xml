@@ -3,8 +3,6 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:divider="?android:attr/dividerHorizontal"
     android:showDividers="middle"
     tools:context=".OfferListActivity"
@@ -23,9 +21,9 @@
     		android:layout_width="match_parent"
     		android:layout_height="80dp" 
     		android:orientation="horizontal"
-			android:layout_marginLeft="16dp"
-		    android:layout_marginRight="16dp"
-    		android:id="@+id/productOverview" 
+			android:paddingLeft="10dp"
+    		android:id="@+id/productOverview"
+    		android:background="#f1f1f2" 
 		>
 
             <ImageView
@@ -33,6 +31,7 @@
                 android:layout_width="79dp"
                 android:layout_height="79dp"
                 android:contentDescription="@string/productOverview_image"
+                android:layout_marginRight="10dp"
             />
             
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -73,10 +72,9 @@
     		android:id="@+id/offer_list_container"
     		android:layout_width="match_parent"
     		android:layout_height="0dp"
-    		android:layout_marginLeft="16dp"
-		    android:layout_marginRight="16dp"
 		    android:layout_weight="6"
-    		tools:context=".OfferListActivity" />
+    		tools:context=".OfferListActivity" 
+    		android:listSelector="@drawable/list_selector"	/>
 	
 	</LinearLayout>
 

@@ -3,13 +3,16 @@
    android:layout_width="fill_parent"
    android:layout_height="70dp"
    android:minHeight="70dp" 
-   android:orientation="horizontal"        
+   android:orientation="horizontal" 
+   android:background="@drawable/list_selector"
+   android:paddingLeft="10dp"       
    >
        <ImageView
             android:id="@+id/product_row_image"
             android:layout_width="69dp"
             android:layout_height="69dp"
             android:contentDescription="@string/productRow_image"
+            android:layout_marginRight="10dp"
         />
     
         <TextView

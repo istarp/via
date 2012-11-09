@@ -22,12 +22,13 @@ public class Offer implements Comparable<Offer>{
 	
 	public Offer(){}
 	
-	public Offer(int id, String premiseName, String vatPrice, int stockAvailability) {
+	public Offer(int id, String premiseName, String vatPrice, int stockAvailability, String url) {
 		super();
 		this.id = id;
 		this.premiseName = premiseName;
 		this.vatPrice = vatPrice;
 		this.stockAvailability = stockAvailability;
+		this.URL = url;
 	}
 	
 	public Offer(int id, int premiseId, int productId, String premiseName, String premiseType, String uRL, String imgURL, String vatPrice, int hasPicture, int stockAvailability, String minStockAvailability, ArrayList<Depot> depots, ArrayList<Store> stores, ArrayList<PaymentType> paymentTypes) {

@@ -19,9 +19,9 @@ public class Database {
     	p.setMinPrice(4500);
     	
     	Map<Integer, Offer> o = new HashMap<Integer, Offer>();    	
-    	o.put(2, new Offer(2, "Mall.cz", "5500", -1));
-    	o.put(1, new Offer(1, "Alza.cz", "5000", 0));
-    	o.put(3, new Offer(3, "czc.cz", "6000", 0));
+    	o.put(2, new Offer(2, "Mall.cz", "5500", -1, "http://mall.cz"));
+    	o.put(1, new Offer(1, "Alza.cz", "5000", 0, "http://alza.cz"));
+    	o.put(3, new Offer(3, "czc.cz", "6000", 0, "http://czc.cz"));
     	
     	p.setOffers(o);
         addItem(p);
@@ -35,9 +35,9 @@ public class Database {
     	p.setMinPrice(5500);
     	
     	o = new HashMap<Integer, Offer>();    	
-    	o.put(2, new Offer(2, "Shop.cz", "4500", -1));
-    	o.put(1, new Offer(1, "NoName.cz", "5000", 0));
-    	o.put(3, new Offer(3, "Nikdo.cz", "5500", 0));
+    	o.put(2, new Offer(2, "Shop.cz", "4500", -1, "http://shop.cz"));
+    	o.put(1, new Offer(1, "NoName.cz", "5000", 0, "http://google.cz"));
+    	o.put(3, new Offer(3, "Nikdo.cz", "5500", 0, "http://seznam.cz"));
     	
     	p.setOffers(o);
         addItem(p);        
