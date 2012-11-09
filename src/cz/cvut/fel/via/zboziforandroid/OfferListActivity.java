@@ -20,7 +20,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 		
     private boolean mTwoPane;
     private SearchView mSearchView; 
-    private Menu mMenu;    
+    private Menu mMenu; 
+    private boolean sorted = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,11 +67,26 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {        	
-            NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
-            return true;
-        }
-
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
+				return (true);
+			case R.id.action_sort:			
+	        	OfferListFragment offerListFragment = new OfferListFragment();
+	        	Bundle b = getIntent().getExtras();
+				if(this.sorted){
+					item.setTitle(getResources().getString(R.string.sort_down));
+					b.putString(OfferListFragment.RESORT, "");
+					this.sorted = false;
+				}else{
+					item.setTitle(getResources().getString(R.string.sort_up));					
+					b.remove(OfferListFragment.RESORT);
+					this.sorted = true;
+				}	        	
+	            offerListFragment.setArguments(b);
+	            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();;
+				return (true);
+		}
         return super.onOptionsItemSelected(item);
     }
     
@@ -85,7 +101,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
-        mSearchView.setOnQueryTextFocusChangeListener(this);        	
+        mSearchView.setOnQueryTextFocusChangeListener(this);        	        
         
         return true;
     }
