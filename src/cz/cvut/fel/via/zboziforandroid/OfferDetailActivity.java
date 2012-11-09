@@ -16,11 +16,15 @@ public class OfferDetailActivity extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
         if (savedInstanceState == null) {
-            OfferDetailFragment fragment = new OfferDetailFragment();
-            fragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.offer_detail_container, fragment)
-                    .commit();
+        	if (getIntent().getExtras().containsKey(OfferDetailFragment.OFFER_ID)){
+        		OfferDetailFragment fragment = new OfferDetailFragment();
+        		fragment.setArguments(getIntent().getExtras());
+        		getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
+        	}else{
+        		ProductDetailFragment fragment = new ProductDetailFragment();
+        		fragment.setArguments(getIntent().getExtras());
+        		getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
+        	}            
         }
     }
 

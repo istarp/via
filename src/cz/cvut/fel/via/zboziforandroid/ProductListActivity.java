@@ -58,8 +58,6 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);        	
-        MenuItem sortItem = menu.findItem(R.id.action_sort);
-        sortItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         
         return true;
     }

@@ -20,29 +20,30 @@ public final class R {
         public static final int list_selector=0x7f020006;
     }
     public static final class id {
-        public static final int action_search=0x7f070015;
-        public static final int action_sort=0x7f070016;
-        public static final int goToShop=0x7f070012;
-        public static final int locality=0x7f070011;
+        public static final int action_search=0x7f070016;
+        public static final int action_sort=0x7f070017;
+        public static final int goToShop=0x7f070013;
+        public static final int locality=0x7f070012;
         public static final int logo=0x7f070008;
         public static final int logo_black=0x7f07000b;
         public static final int offer_detail=0x7f07000c;
         public static final int offer_detail_container=0x7f070000;
         public static final int offer_list_container=0x7f070005;
-        public static final int price=0x7f07000f;
+        public static final int price=0x7f070010;
         public static final int productOverview=0x7f070001;
         public static final int productOverview_description=0x7f070004;
         public static final int productOverview_image=0x7f070002;
         public static final int productOverview_name=0x7f070003;
+        public static final int product_detail=0x7f07000d;
         public static final int product_detail_container=0x7f070007;
         public static final int product_list=0x7f070006;
-        public static final int product_row_image=0x7f070013;
-        public static final int product_row_name=0x7f070014;
+        public static final int product_row_image=0x7f070014;
+        public static final int product_row_name=0x7f070015;
         public static final int searchButton=0x7f07000a;
         public static final int searchString=0x7f070009;
-        public static final int shopName=0x7f07000d;
-        public static final int shopRating=0x7f07000e;
-        public static final int status=0x7f070010;
+        public static final int shopName=0x7f07000e;
+        public static final int shopRating=0x7f07000f;
+        public static final int status=0x7f070011;
     }
     public static final class layout {
         public static final int activity_offer_detail=0x7f030000;
@@ -52,11 +53,13 @@ public final class R {
         public static final int activity_product_twopane=0x7f030004;
         public static final int activity_startup=0x7f030005;
         public static final int fragment_offer_detail=0x7f030006;
-        public static final int offer_row=0x7f030007;
-        public static final int product_row=0x7f030008;
+        public static final int fragment_product_detail=0x7f030007;
+        public static final int offer_row=0x7f030008;
+        public static final int product_row=0x7f030009;
     }
     public static final class menu {
         public static final int searchview_in_menu=0x7f060000;
+        public static final int searchview_in_menu_sort=0x7f060001;
     }
     public static final class string {
         public static final int app_name=0x7f040000;

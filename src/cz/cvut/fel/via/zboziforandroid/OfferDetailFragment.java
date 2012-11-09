@@ -27,10 +27,8 @@ public class OfferDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments().containsKey(OFFER_ID)) {
+        if (getArguments().containsKey(OFFER_ID) && getArguments().containsKey(PRODUCT_ID)) {
             mOffer = Database.PRODUCTS.get(getArguments().getInt(PRODUCT_ID)).getOffers().get(getArguments().getInt(OFFER_ID));
-        }
-        if (getArguments().containsKey(PRODUCT_ID)) {
             mProduct = Database.PRODUCTS.get(getArguments().getInt(PRODUCT_ID));
         }
     }
@@ -42,12 +40,7 @@ public class OfferDetailFragment extends Fragment {
         	((ImageView) rootView.findViewById(R.id.logo_black)).setVisibility(View.GONE);
         	((TextView) rootView.findViewById(R.id.offer_detail)).setVisibility(View.VISIBLE);
         	((LinearLayout) rootView.findViewById(R.id.offer_detail_container)).setGravity(Gravity.LEFT);
-        }
-        if (mOffer != null) {
-            ((TextView) rootView.findViewById(R.id.offer_detail)).setText("Selected Offer: \r\n" + mOffer.getPremiseName());
-        }
-        if (mProduct != null && mOffer == null) {
-        	((TextView) rootView.findViewById(R.id.offer_detail)).setText("Selected Product: \r\n" + mProduct.getProductName());
+        	((TextView) rootView.findViewById(R.id.offer_detail)).setText("Selected Offer: \r\n" + mOffer.getPremiseName());
         }
         return rootView;
     }

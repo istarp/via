@@ -50,7 +50,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         productOverview.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				startDetail(0, false);				
+				startProductDetail(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));								
 			}
 		}); 
         
@@ -62,7 +62,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 
     @Override
     public void onItemSelected(int id) {
-        startDetail(id, true);
+        startOfferDetail(id);
     }
     
     @Override
@@ -96,12 +96,14 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
  
         this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.searchview_in_menu, menu);        
+        inflater.inflate(R.menu.searchview_in_menu_sort, menu);        
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);        	        
+        //MenuItem sortItem = menu.findItem(R.id.action_sort);
+        //sortItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         
         return true;
     }
@@ -138,14 +140,10 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 		searchItem.collapseActionView();
 	}
 	
-	private void startDetail(int id, boolean isOffer){			
-		
+	private void startOfferDetail(int id){					
 		Bundle arguments = new Bundle();		
 		arguments.putInt(OfferDetailFragment.PRODUCT_ID, getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
-		if (isOffer){
-			arguments.putInt(OfferDetailFragment.OFFER_ID, id);			
-		}
-		
+		arguments.putInt(OfferDetailFragment.OFFER_ID, id);		
         if (mTwoPane) {                        
             OfferDetailFragment fragment = new OfferDetailFragment();
             fragment.setArguments(arguments);
@@ -156,9 +154,24 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
             Intent detailIntent = new Intent(this, OfferDetailActivity.class);
             detailIntent.putExtras(arguments);
             startActivity(detailIntent);           
-        }		
-		
+        }				
 	}
+	
+	private void startProductDetail(int id){					
+		Bundle arguments = new Bundle();		
+		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);		
+        if (mTwoPane) {                        
+            ProductDetailFragment fragment = new ProductDetailFragment();
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.offer_detail_container, fragment)
+                    .commit();
+        } else {        	
+            Intent detailIntent = new Intent(this, OfferDetailActivity.class);
+            detailIntent.putExtras(arguments);
+            startActivity(detailIntent);           
+        }				
+	}	
 	
 
 }
