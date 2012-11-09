@@ -25,6 +25,22 @@ public class Database {
     	
     	p.setOffers(o);
         addItem(p);
+        
+        p = new Product();
+    	p.setId(2);
+    	p.setProductName("HTC Desire");
+    	p.setProductNameExt("Delsi HTC Desire");
+    	p.setDescription("neco neco neco neco");
+    	p.setMaxPrice(4500);
+    	p.setMinPrice(5500);
+    	
+    	o = new HashMap<Integer, Offer>();    	
+    	o.put(2, new Offer(2, "Shop.cz", "4500", -1));
+    	o.put(1, new Offer(1, "NoName.cz", "5000", 0));
+    	o.put(3, new Offer(3, "Nikdo.cz", "5500", 0));
+    	
+    	p.setOffers(o);
+        addItem(p);        
     }
 
     private static void addItem(Product item) {

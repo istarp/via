@@ -16,12 +16,8 @@ public class OfferDetailActivity extends FragmentActivity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
         if (savedInstanceState == null) {
-        	String key = getIntent().getExtras().containsKey(OfferDetailFragment.OFFER_ID) ? OfferDetailFragment.OFFER_ID : OfferDetailFragment.PRODUCT_ID;        		        	
-            Bundle arguments = new Bundle();
-            arguments.putInt(key,
-            		getIntent().getExtras().getInt(key));
             OfferDetailFragment fragment = new OfferDetailFragment();
-            fragment.setArguments(arguments);
+            fragment.setArguments(getIntent().getExtras());
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.offer_detail_container, fragment)
                     .commit();

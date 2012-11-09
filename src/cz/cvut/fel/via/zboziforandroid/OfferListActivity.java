@@ -17,45 +17,46 @@ import android.widget.TextView;
 import android.widget.SearchView;
 
 public class OfferListActivity extends FragmentActivity implements OfferListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
-
-	public static final String SEARCHED_STRING = "searched_string";
-	
+		
     private boolean mTwoPane;
     private SearchView mSearchView; 
-    private Menu menu;    
+    private Menu mMenu;    
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_list);        
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);                       
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        if (savedInstanceState == null) {
+        	OfferListFragment offerListFragment = new OfferListFragment();
+            offerListFragment.setArguments(getIntent().getExtras());
+            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();            
+        }
         
         TextView productName = (TextView) findViewById(R.id.productOverview_name);
         TextView productDescription = (TextView) findViewById(R.id.productOverview_description);
         ImageView productImage = (ImageView) findViewById(R.id.productOverview_image);
         LinearLayout productOverview = (LinearLayout) findViewById(R.id.productOverview);
         
-        Product product = Database.PRODUCTS.get(0);
+        Product product = Database.PRODUCTS.get(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
         productName.setText(product.getProductName());
         productDescription.setText(product.getDescription());
         //productImage.setImageDrawable(product.getImage());
         productImage.setImageDrawable(getResources().getDrawable(R.drawable.example));
         
-        productOverview.setOnClickListener(new OnClickListener() {
-			
+        productOverview.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				startDetail(22, false);				
+				startDetail(0, false);				
 			}
-		});
-                               
+		}); 
+        
         if (findViewById(R.id.offer_detail_container) != null) {
             mTwoPane = true;
-            ((OfferListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.offer_list))
-                    .setActivateOnItemClick(true);
         }
+        
     }
 
     @Override
@@ -77,7 +78,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
  
-        this.menu = menu;
+        this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.searchview_in_menu, menu);        
         MenuItem searchItem = menu.findItem(R.id.action_search);
@@ -102,7 +103,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	
 	@Override
 	public void onResume() {
-		if(menu != null){
+		if(mMenu != null){
 			collapseSearchMenu();
 		}
 		super.onResume();
@@ -117,17 +118,19 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	}	
 	
 	private void collapseSearchMenu(){
-		MenuItem searchItem = menu.findItem(R.id.action_search);
+		MenuItem searchItem = mMenu.findItem(R.id.action_search);
 		searchItem.collapseActionView();
 	}
 	
-	private void startDetail(int id, boolean idOffer){
+	private void startDetail(int id, boolean isOffer){			
 		
-		String key = idOffer ? OfferDetailFragment.OFFER_ID : OfferDetailFragment.PRODUCT_ID;
+		Bundle arguments = new Bundle();		
+		arguments.putInt(OfferDetailFragment.PRODUCT_ID, getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
+		if (isOffer){
+			arguments.putInt(OfferDetailFragment.OFFER_ID, id);			
+		}
 		
-        if (mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putInt(key, id);
+        if (mTwoPane) {                        
             OfferDetailFragment fragment = new OfferDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -135,7 +138,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
                     .commit();
         } else {        	
             Intent detailIntent = new Intent(this, OfferDetailActivity.class);
-            detailIntent.putExtra(key, id);
+            detailIntent.putExtras(arguments);
             startActivity(detailIntent);           
         }		
 		

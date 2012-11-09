@@ -1,25 +1,24 @@
 package cz.cvut.fel.via.zboziforandroid;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import cz.cvut.fel.via.zboziforandroid.model.Database;
-import cz.cvut.fel.via.zboziforandroid.model.Offer;
-import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
+import cz.cvut.fel.via.zboziforandroid.model.Database;
+import cz.cvut.fel.via.zboziforandroid.model.Product;
+import cz.cvut.fel.via.zboziforandroid.model.ProductListAdapter;
 
-public class OfferListFragment extends ListFragment {
+public class ProductListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    public static final String PRODUCT_LIST_ID = "product_list_id";
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    private List<Offer> mOffers;
+    private List<Product> mProducts;
 
     public interface Callbacks {
 
@@ -32,21 +31,19 @@ public class OfferListFragment extends ListFragment {
         }
     };
 
-    public OfferListFragment() {
+    public ProductListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
-        this.mOffers = new ArrayList<Offer>(Database.PRODUCTS.get(getArguments().getInt(ProductListFragment.PRODUCT_LIST_ID)).getOffers().values());
-        Collections.sort(this.mOffers);
-        setListAdapter(new OfferListAdapter(getActivity(), R.layout.offer_row, this.mOffers));        
+        this.mProducts = new ArrayList<Product>(Database.PRODUCTS);
+        setListAdapter(new ProductListAdapter(getActivity(), R.layout.product_row, this.mProducts));        
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);                                
-        setActivateOnItemClick(true);
         if (savedInstanceState != null && savedInstanceState
                 .containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
@@ -71,7 +68,7 @@ public class OfferListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);        
-        mCallbacks.onItemSelected(this.mOffers.get(position).getId());
+        mCallbacks.onItemSelected(position);
     }
 
     @Override

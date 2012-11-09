@@ -10,5 +10,6 @@
 	<string name="out_store">neznámá</string>
     <string name="currency">Kč</string>
     <string name="productOverview_image">Náhled obrázku</string>
+    <string name="productRow_image">Náhled obrázku</string>
 	
 </resources>

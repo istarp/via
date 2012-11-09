@@ -48,8 +48,7 @@ public class StartupActivity extends FragmentActivity{
     
     private void doSearch(String query){
     	QuerryDatabase.saveQuerry(query);
-        Intent listIntent = new Intent(this, OfferListActivity.class);
-        listIntent.putExtra(OfferListActivity.SEARCHED_STRING, query);
+        Intent listIntent = new Intent(this, ProductListActivity.class);        
         startActivity(listIntent);    	
     }
 	
