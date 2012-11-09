@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:divider="?android:attr/dividerHorizontal"
+  	android:showDividers="middle"
+>
+        
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:layout_width="match_parent"
+    		android:layout_height="80dp" 
+    		android:orientation="horizontal"
+			android:layout_marginLeft="16dp"
+		    android:layout_marginRight="16dp"
+    		android:id="@+id/productOverview" 
+		>
+
+            <ImageView
+                android:id="@+id/productOverview_image"
+                android:layout_width="79dp"
+                android:layout_height="79dp"
+                android:contentDescription="@string/productOverview_image"
+            />
+            
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    			android:layout_width="match_parent"
+    			android:layout_height="match_parent" 
+    			android:orientation="vertical" 
+    			android:paddingTop="5dp"
+			>
+
+			        <TextView
+		           		android:id="@+id/productOverview_name"
+		            	android:layout_width="match_parent"
+		            	android:layout_height="wrap_content"            
+		            	android:textAppearance="?android:attr/textAppearanceMedium"		            	
+		            	android:textSize="25dp"
+		            />
+		   	        <TextView
+		           		android:id="@+id/productOverview_description"
+		            	android:layout_width="match_parent"
+		            	android:layout_height="match_parent"            
+		            	android:textAppearance="?android:attr/textAppearanceMedium"
+		            	android:gravity="top"		            	
+		            />
+	        </LinearLayout>
+		
+        </LinearLayout>     
+    
+		<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+		   xmlns:tools="http://schemas.android.com/tools"
+		   android:name="cz.cvut.fel.via.zboziforandroid.OfferListFragment"		   
+		   android:id="@+id/offer_list"
+		   android:layout_width="match_parent"
+		   android:layout_height="match_parent"
+		   android:layout_marginLeft="16dp"
+		   android:layout_marginRight="16dp"
+		   tools:context=".OfferListActivity" 
+		   />
+
+</LinearLayout> 

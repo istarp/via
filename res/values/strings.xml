@@ -1,0 +1,14 @@
+<resources>
+
+    <string name="app_name">ZboziForAndroid</string>
+    <string name="title_offer_detail">Offer Detail</string>
+    <string name="title_offer_list">Offers</string>
+    <string name="search_button">Hledej</string>    
+	<string name="sort_up">Od nejdražšího</string>
+	<string name="sort_down">Od nejlevnějšího</string>
+	<string name="in_store">Zboží je skladem</string>
+	<string name="out_store">neznámá</string>
+    <string name="currency">Kč</string>
+    <string name="productOverview_image">Náhled obrázku</string>
+	
+</resources>
