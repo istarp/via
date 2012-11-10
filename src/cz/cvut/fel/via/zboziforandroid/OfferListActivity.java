@@ -56,6 +56,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         
         if (findViewById(R.id.offer_detail_container) != null) {
             mTwoPane = true;
+        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
+        	offerDetailFragment.setArguments(new Bundle());
+            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, offerDetailFragment).commit();
         }
         
     }
@@ -102,8 +105,6 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);        	        
-        //MenuItem sortItem = menu.findItem(R.id.action_sort);
-        //sortItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         
         return true;
     }
