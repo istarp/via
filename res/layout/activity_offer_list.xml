@@ -6,13 +6,13 @@
     android:divider="?android:attr/dividerHorizontal"
   	android:showDividers="middle"
 >
-        
+           
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     		android:layout_width="match_parent"
     		android:layout_height="85dp" 
-    		android:orientation="horizontal"
-    		android:id="@+id/productOverview" 
-    		android:background="#cfcfcf"    		
+    		android:orientation="horizontal"    		
+    		android:background="#e7e7e8" 
+    		android:id="@+id/productOverview"   		
 		>
 
             <ImageView
@@ -24,13 +24,14 @@
                 android:background="#FFFFFF"
             />
             
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    			android:layout_width="match_parent"
-    			android:layout_height="match_parent" 
-    			android:orientation="vertical" 
-    			android:paddingTop="5dp"
-    			android:layout_marginLeft="10dp"
-			>
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical"
+                android:paddingTop="5dp" 
+                android:layout_weight="35">
 
 			        <TextView
 		           		android:id="@+id/productOverview_name"
@@ -47,8 +48,18 @@
 		            	android:gravity="top"		            	
 		            />
 	        </LinearLayout>
+            <ImageView
+                android:id="@+id/productOverview_arrow"
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/productOverview_image"                
+                android:src = "@drawable/list_item_arrow"
+                android:layout_weight="1"
+            />
+            
+            </LinearLayout>
 		
-        </LinearLayout>     
+    
     
         <!-- 
 		<fragment xmlns:android="http://schemas.android.com/apk/res/android"
