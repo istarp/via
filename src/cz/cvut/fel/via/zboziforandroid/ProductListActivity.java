@@ -21,15 +21,17 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         setContentView(R.layout.activity_product_list);        
 
         getActionBar().setDisplayHomeAsUpEnabled(true);                                              
-                               
-        if (findViewById(R.id.product_detail_container) != null) {
-            ((ProductListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.product_list))
-                    .setActivateOnItemClick(true);
-        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
-        	offerDetailFragment.setArguments(new Bundle());
-            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, offerDetailFragment).commit();
-        }        
+        
+        if (savedInstanceState == null){
+	        if (findViewById(R.id.product_detail_container) != null) {
+	            ((ProductListFragment) getSupportFragmentManager()
+	                    .findFragmentById(R.id.product_list))
+	                    .setActivateOnItemClick(true);
+	        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
+	        	offerDetailFragment.setArguments(new Bundle());
+	            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, offerDetailFragment).commit();
+	        }        
+        }
     }
 
     @Override

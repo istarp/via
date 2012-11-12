@@ -53,13 +53,15 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 				startProductDetail(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));								
 			}
 		}); 
-        
-        if (findViewById(R.id.offer_detail_container) != null) {
+                
+        if (findViewById(R.id.offer_detail_container) != null) {        	
             mTwoPane = true;
-        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
-        	offerDetailFragment.setArguments(new Bundle());
-            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, offerDetailFragment).commit();
-        }
+            if (savedInstanceState == null){
+	        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
+	        	offerDetailFragment.setArguments(new Bundle());
+	            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, offerDetailFragment).commit();
+            }
+        }        
         
     }
 
