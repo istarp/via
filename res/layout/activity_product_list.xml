@@ -14,7 +14,8 @@
 		   android:layout_width="match_parent"
 		   android:layout_height="match_parent"
 		   tools:context=".ProductListActivity"
-		   android:listSelector="@drawable/list_selector"		   
+		   android:listSelector="@drawable/list_selector"
+		   android:layout_marginTop="2dp"		   
 		   />
 
 </LinearLayout> 

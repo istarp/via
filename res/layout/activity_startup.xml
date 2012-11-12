@@ -23,6 +23,7 @@
         android:ems="10"
         android:inputType="text"
         android:imeOptions="actionDone"
+        android:completionThreshold="1"
  		/>
 
     <Button
