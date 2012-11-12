@@ -5,7 +5,6 @@ import cz.cvut.fel.via.zboziforandroid.model.Product;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -74,7 +73,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
     public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case android.R.id.home:
-				NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
+				//NavUtils.navigateUpTo(this, new Intent(this, ProductListActivity.class));
+				finish();
 				return (true);
 			case R.id.action_sort:			
 	        	OfferListFragment offerListFragment = new OfferListFragment();
@@ -144,7 +144,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	}
 	
 	private void startOfferDetail(int id){					
-		Bundle arguments = new Bundle();		
+		Bundle arguments = new Bundle(getIntent().getExtras());		
 		arguments.putInt(OfferDetailFragment.PRODUCT_ID, getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
 		arguments.putInt(OfferDetailFragment.OFFER_ID, id);		
         if (mTwoPane) {                        
@@ -161,8 +161,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	}
 	
 	private void startProductDetail(int id){					
-		Bundle arguments = new Bundle();		
-		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);		
+		Bundle arguments = new Bundle(getIntent().getExtras());		
+		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);
+		arguments.remove(OfferDetailFragment.OFFER_ID);
         if (mTwoPane) {                        
             ProductDetailFragment fragment = new ProductDetailFragment();
             fragment.setArguments(arguments);

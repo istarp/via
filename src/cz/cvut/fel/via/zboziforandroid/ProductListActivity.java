@@ -3,7 +3,6 @@ package cz.cvut.fel.via.zboziforandroid;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,7 +43,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {        	
-            NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
+            //NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
+        	finish();
             return true;
         }
 

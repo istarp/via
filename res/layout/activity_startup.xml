@@ -18,13 +18,16 @@
     
     <AutoCompleteTextView
         android:id="@+id/searchString"
-        android:layout_width="match_parent"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
         android:imeOptions="actionDone"
         android:completionThreshold="1"
- 		/>
+        android:background="@drawable/back"        
+ 		>
+ 		<requestFocus/>
+ 	</AutoCompleteTextView>
 
     <Button
         android:id="@+id/searchButton"

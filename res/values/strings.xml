@@ -1,8 +1,10 @@
 <resources>
 
     <string name="app_name">ZboziForAndroid</string>
-    <string name="title_offer_detail">Offer Detail</string>
-    <string name="title_offer_list">Offers</string>
+    <string name="title_offer_detail">Detail nabídky</string>
+    <string name="title_offer_list">Seznam nabídek</string>
+    <string name="title_product_list">Seznam produktů</string>
+    <string name="title_product_detail">Detail produktu</string>
     <string name="search_button">Hledej</string>    
 	<string name="sort_up">Od nejdražšího</string>
 	<string name="sort_down">Od nejlevnějšího</string>
