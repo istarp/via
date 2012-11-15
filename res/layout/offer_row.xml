@@ -113,6 +113,18 @@
 
     </LinearLayout>
     
+    <ImageView
+        android:layout_gravity="center"
+            android:id="@+id/goToShop"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:contentDescription="@string/productRow_image"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/shopping_cart"
+        />
+    
+    <!-- 
     <Button
 	       android:id="@+id/goToShop"
 	       style="?android:attr/buttonStyleSmall"
@@ -123,5 +135,7 @@
     	   android:focusableInTouchMode="false"
     	   android:layout_marginLeft="5dp"
     	   />
+    	   
+    	    -->
 
 </LinearLayout>

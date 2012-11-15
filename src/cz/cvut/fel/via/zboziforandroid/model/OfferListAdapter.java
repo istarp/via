@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickListener{
@@ -34,7 +34,7 @@ public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickList
         public TextView price;
         public TextView status;
         public TextView locality; 
-        public Button button; 
+        public ImageView button; 
         public int position;
     }
 	
@@ -50,7 +50,7 @@ public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickList
             TextView price = (TextView) convertView.findViewById(R.id.price);
             TextView status = (TextView) convertView.findViewById(R.id.status);
             TextView locality = (TextView) convertView.findViewById(R.id.locality); 
-            Button button = (Button) convertView.findViewById(R.id.goToShop); 
+            ImageView button = (ImageView) convertView.findViewById(R.id.goToShop); 
             
             holder = new ViewHolder();  
             holder.shopName = shopName;  
