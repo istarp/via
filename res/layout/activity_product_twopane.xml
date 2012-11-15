@@ -6,6 +6,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:showDividers="middle"
     tools:context=".ProductListActivity"
+    android:background="#ffffff"
     >
     	    	          
 	<fragment android:name="cz.cvut.fel.via.zboziforandroid.ProductListFragment"

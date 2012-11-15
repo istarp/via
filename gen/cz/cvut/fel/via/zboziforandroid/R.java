@@ -50,10 +50,11 @@ public final class R {
         public static final int tab_unselected_pressed_myactionbarstyle=0x7f020021;
     }
     public static final class id {
-        public static final int action_search=0x7f080017;
-        public static final int action_sort=0x7f080018;
-        public static final int goToShop=0x7f080014;
-        public static final int locality=0x7f080013;
+        public static final int action_search=0x7f080018;
+        public static final int action_sort=0x7f080019;
+        public static final int currency=0x7f080012;
+        public static final int goToShop=0x7f080015;
+        public static final int locality=0x7f080014;
         public static final int logo=0x7f080009;
         public static final int logo_black=0x7f08000c;
         public static final int offer_detail=0x7f08000d;
@@ -68,13 +69,13 @@ public final class R {
         public static final int product_detail=0x7f08000e;
         public static final int product_detail_container=0x7f080008;
         public static final int product_list=0x7f080007;
-        public static final int product_row_image=0x7f080015;
-        public static final int product_row_name=0x7f080016;
+        public static final int product_row_image=0x7f080016;
+        public static final int product_row_name=0x7f080017;
         public static final int searchButton=0x7f08000b;
         public static final int searchString=0x7f08000a;
         public static final int shopName=0x7f08000f;
         public static final int shopRating=0x7f080010;
-        public static final int status=0x7f080012;
+        public static final int status=0x7f080013;
     }
     public static final class layout {
         public static final int activity_offer_detail=0x7f030000;

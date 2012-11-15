@@ -1,5 +1,7 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.model.QuerryDatabase;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -7,7 +9,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CursorAdapter;
 import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 
 public class ProductListActivity extends FragmentActivity implements ProductListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 	
@@ -31,6 +35,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, offerDetailFragment).commit();
 	        }        
         }
+        
     }
 
     @Override
@@ -62,8 +67,15 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
-        mSearchView.setOnQueryTextFocusChangeListener(this);        	
+        mSearchView.setOnQueryTextFocusChangeListener(this);
         
+        //String[] from = {"text"};
+        
+        //String[] from = {SearchManager.SUGGEST_COLUMN_TEXT_1};
+        //int[] to = {R.id.action_search};
+        //CursorAdapter cursor = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, QuerryDatabase.CURSOR, from, to, 1);
+        //mSearchView.setSuggestionsAdapter(cursor);        
+                
         return true;
     }
      
@@ -98,6 +110,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		MenuItem searchItem = mMenu.findItem(R.id.action_search);
 		searchItem.collapseActionView();
 	}
+	
 	
 
 }

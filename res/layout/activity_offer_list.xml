@@ -5,6 +5,7 @@
     android:orientation="vertical" 
     android:divider="?android:attr/dividerHorizontal"
   	android:showDividers="middle"
+  	android:background="#ffffff"
 >
            
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

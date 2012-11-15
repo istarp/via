@@ -67,10 +67,10 @@ public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickList
 		
 		Offer offer = this.offers.get(position);
         holder.shopName.setText(offer.getPremiseName());
-		holder.price.setText(offer.getVatPrice() + " " + getContext().getResources().getString(R.string.currency));
+		holder.price.setText(offer.getVatPrice());
 		holder.status.setText(offer.getStockAvailability() == 0 ? R.string.in_store : R.string.out_store);
 		holder.locality.setVisibility(View.GONE);
-		holder.status.setTextColor(offer.getStockAvailability() == 0 ? Color.parseColor("#21CE2C") : Color.parseColor("#9FA0A5"));
+		holder.status.setTextColor(offer.getStockAvailability() == 0 ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
 		holder.button.setOnClickListener(this);;
         holder.position = position;
           

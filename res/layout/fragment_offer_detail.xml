@@ -6,7 +6,8 @@
     android:divider="?android:attr/dividerHorizontal"
   	android:showDividers="middle"
   	android:gravity="center"  
-  	android:id="@+id/offer_detail_container"	
+  	android:id="@+id/offer_detail_container"
+  	android:background="#ffffff"	
 >            
     
 <ImageView
