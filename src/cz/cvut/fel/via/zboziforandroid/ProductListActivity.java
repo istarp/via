@@ -1,17 +1,19 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import cz.cvut.fel.via.zboziforandroid.model.QuerryDatabase;
+import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CursorAdapter;
 import android.widget.SearchView;
-import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class ProductListActivity extends FragmentActivity implements ProductListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 	
@@ -36,7 +38,26 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	        }        
         }
         
+        handleIntent(getIntent());
     }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    @SuppressWarnings("deprecation")
+	private void handleIntent(Intent intent) {    	
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {                    	
+            Uri uri = intent.getData();
+            Cursor cursor = managedQuery(uri, null, null, null, null);
+            if (cursor != null) {            	
+                cursor.moveToFirst();
+                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
+                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }    
 
     @Override
     public void onItemSelected(int id) {       	
@@ -47,10 +68,14 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {        	
-            //NavUtils.navigateUpTo(this, new Intent(this, StartupActivity.class));
-        	finish();
-            return true;
+    	
+        switch (item.getItemId()) {
+        	case R.id.action_search:
+        		onSearchRequested();
+        		return true;
+        	case android.R.id.home:
+        		finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -59,23 +84,20 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
- 
+
         this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.searchview_in_menu, menu);        
+        inflater.inflate(R.menu.searchview_in_menu, menu);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);
-        
-        //String[] from = {"text"};
-        
-        //String[] from = {SearchManager.SUGGEST_COLUMN_TEXT_1};
-        //int[] to = {R.id.action_search};
-        //CursorAdapter cursor = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, QuerryDatabase.CURSOR, from, to, 1);
-        //mSearchView.setSuggestionsAdapter(cursor);        
                 
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);        
+      
         return true;
     }
      
@@ -111,6 +133,9 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		searchItem.collapseActionView();
 	}
 	
-	
+    @Override
+    public boolean onSearchRequested() {
+    	return true;
+    }
 
 }

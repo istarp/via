@@ -2,7 +2,12 @@ package cz.cvut.fel.via.zboziforandroid;
 
 import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.Product;
+import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -14,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 public class OfferListActivity extends FragmentActivity implements OfferListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 		
@@ -62,6 +68,25 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
             }
         }        
         
+        handleIntent(getIntent());
+    }
+    
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    @SuppressWarnings("deprecation")
+	private void handleIntent(Intent intent) {    	
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {                    	
+            Uri uri = intent.getData();
+            Cursor cursor = managedQuery(uri, null, null, null, null);
+            if (cursor != null) {            	
+                cursor.moveToFirst();
+                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
+                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -107,6 +132,10 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);        	        
+        
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(false);
         
         return true;
     }
@@ -177,5 +206,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         }				
 	}	
 	
+    @Override
+    public boolean onSearchRequested() {
+    	return true;
+    }	
 
 }
