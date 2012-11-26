@@ -21,7 +21,12 @@
            android:layout_height="match_parent"           
      	   android:focusable="false"
     	   android:focusableInTouchMode="false"
-    	   android:textSize="25dp"    	   
+    	   android:textSize="25dp" 
+    	   
+    	    android:singleLine="true"
+			android:ellipsize="marquee" 
+			android:marqueeRepeatLimit="marquee_forever"
+			android:scrollHorizontally="true"   	   
            />     
 
 </LinearLayout>

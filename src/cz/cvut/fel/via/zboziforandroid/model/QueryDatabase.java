@@ -23,7 +23,7 @@ public class QueryDatabase {
     private static final HashMap<String,String> mColumnMap = buildColumnMap();
     
     public static String[] QUERIES = {};	
-private static HashSet<String> queries = new HashSet<String>();
+    private static HashSet<String> queries = new HashSet<String>();
 
     public QueryDatabase(Context context) {
         mDatabaseOpenHelper = new QueryOpenHelper(context);
@@ -64,20 +64,20 @@ private static HashSet<String> queries = new HashSet<String>();
         return cursor;
     }
     
-public static void saveQuerry(String query){
-if(!queries.contains(query)){
-queries.add(query);
-QUERIES = toArray();
-
-ContentValues initialValues = new ContentValues();
-            initialValues.put(KEY_WORD, query);
-            mDatabaseOpenHelper.getWritableDatabase().insert(FTS_VIRTUAL_TABLE, null, initialValues);	
-}
-}
-
-private static String[] toArray(){
-return queries.toArray(new String[0]);
-}
+	public static void saveQuerry(String query){
+		if(!queries.contains(query)){
+			queries.add(query);
+			QUERIES = toArray();
+	
+			ContentValues initialValues = new ContentValues();
+	        initialValues.put(KEY_WORD, query);
+	        mDatabaseOpenHelper.getWritableDatabase().insert(FTS_VIRTUAL_TABLE, null, initialValues);	
+		}
+	}
+	
+	private static String[] toArray(){
+		return queries.toArray(new String[0]);
+	}
     
     private static class QueryOpenHelper extends SQLiteOpenHelper {
         
@@ -100,12 +100,12 @@ return queries.toArray(new String[0]);
         }
         
         private void loadWords(){
-         for(String q : QUERIES){
-         addWord(q);
-         }
+        	for(String q : QUERIES){
+        		addWord(q);
+        	}
         }
 
-        public long addWord(String word) {
+        public long addWord(String word) {        
             ContentValues initialValues = new ContentValues();
             initialValues.put(KEY_WORD, word);
             return mDatabase.insert(FTS_VIRTUAL_TABLE, null, initialValues);

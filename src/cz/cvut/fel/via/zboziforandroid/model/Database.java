@@ -14,7 +14,7 @@ public class Database {
     	p.setId(1);
     	p.setProductName("HTC Sensation");
     	p.setProductNameExt("Delsi HTC Sensation");
-    	p.setDescription("neco neco neco neco");
+    	p.setDescription("neco neco neco neco neco neco neco neco neco neco neco neco neco neco neco neco");
     	p.setMaxPrice(6500);
     	p.setMinPrice(4500);
     	
