@@ -23,7 +23,7 @@ public class QueryDatabase {
     private static final HashMap<String,String> mColumnMap = buildColumnMap();
     
     public static String[] QUERIES = {};	
-	private static HashSet<String> queries = new HashSet<String>();
+private static HashSet<String> queries = new HashSet<String>();
 
     public QueryDatabase(Context context) {
         mDatabaseOpenHelper = new QueryOpenHelper(context);
@@ -64,20 +64,20 @@ public class QueryDatabase {
         return cursor;
     }
     
-	public static void saveQuerry(String query){
-		if(!queries.contains(query)){
-			queries.add(query);
-			QUERIES = toArray();
-			
-			ContentValues initialValues = new ContentValues();
+public static void saveQuerry(String query){
+if(!queries.contains(query)){
+queries.add(query);
+QUERIES = toArray();
+
+ContentValues initialValues = new ContentValues();
             initialValues.put(KEY_WORD, query);
-            mDatabaseOpenHelper.getWritableDatabase().insert(FTS_VIRTUAL_TABLE, null, initialValues);			
-		}
-	}
-	
-	private static String[] toArray(){
-		return queries.toArray(new String[0]);
-	}    
+            mDatabaseOpenHelper.getWritableDatabase().insert(FTS_VIRTUAL_TABLE, null, initialValues);	
+}
+}
+
+private static String[] toArray(){
+return queries.toArray(new String[0]);
+}
     
     private static class QueryOpenHelper extends SQLiteOpenHelper {
         
@@ -89,7 +89,7 @@ public class QueryDatabase {
                     KEY_WORD + ");";
 
         QueryOpenHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);            
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         @Override
@@ -97,12 +97,12 @@ public class QueryDatabase {
             mDatabase = db;
             mDatabase.execSQL(FTS_TABLE_CREATE);
             loadWords();
-        }        
+        }
         
-        private void loadWords(){        	
-        	for(String q : QUERIES){        
-        		addWord(q);
-        	}
+        private void loadWords(){
+         for(String q : QUERIES){
+         addWord(q);
+         }
         }
 
         public long addWord(String word) {
