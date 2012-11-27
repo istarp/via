@@ -37,20 +37,23 @@ public final class R {
         public static final int progress_horizontal_myactionbarstyle=0x7f020014;
         public static final int progress_primary_myactionbarstyle=0x7f020015;
         public static final int progress_secondary_myactionbarstyle=0x7f020016;
-        public static final int selectable_background_myactionbarstyle=0x7f020017;
-        public static final int shopping_cart=0x7f020018;
-        public static final int shopping_cart_selected=0x7f020019;
-        public static final int spinner_ab_default_myactionbarstyle=0x7f02001a;
-        public static final int spinner_ab_disabled_myactionbarstyle=0x7f02001b;
-        public static final int spinner_ab_focused_myactionbarstyle=0x7f02001c;
-        public static final int spinner_ab_pressed_myactionbarstyle=0x7f02001d;
-        public static final int spinner_background_ab_myactionbarstyle=0x7f02001e;
-        public static final int tab_indicator_ab_myactionbarstyle=0x7f02001f;
-        public static final int tab_selected_focused_myactionbarstyle=0x7f020020;
-        public static final int tab_selected_myactionbarstyle=0x7f020021;
-        public static final int tab_selected_pressed_myactionbarstyle=0x7f020022;
-        public static final int tab_unselected_focused_myactionbarstyle=0x7f020023;
-        public static final int tab_unselected_pressed_myactionbarstyle=0x7f020024;
+        public static final int search_button_gradient=0x7f020017;
+        public static final int search_button_gradient_select=0x7f020018;
+        public static final int search_button_selector=0x7f020019;
+        public static final int selectable_background_myactionbarstyle=0x7f02001a;
+        public static final int shopping_cart=0x7f02001b;
+        public static final int shopping_cart_selected=0x7f02001c;
+        public static final int spinner_ab_default_myactionbarstyle=0x7f02001d;
+        public static final int spinner_ab_disabled_myactionbarstyle=0x7f02001e;
+        public static final int spinner_ab_focused_myactionbarstyle=0x7f02001f;
+        public static final int spinner_ab_pressed_myactionbarstyle=0x7f020020;
+        public static final int spinner_background_ab_myactionbarstyle=0x7f020021;
+        public static final int tab_indicator_ab_myactionbarstyle=0x7f020022;
+        public static final int tab_selected_focused_myactionbarstyle=0x7f020023;
+        public static final int tab_selected_myactionbarstyle=0x7f020024;
+        public static final int tab_selected_pressed_myactionbarstyle=0x7f020025;
+        public static final int tab_unselected_focused_myactionbarstyle=0x7f020026;
+        public static final int tab_unselected_pressed_myactionbarstyle=0x7f020027;
     }
     public static final class id {
         public static final int action_search=0x7f09001a;

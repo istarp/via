@@ -16,24 +16,27 @@
      />
     
     
-    <AutoCompleteTextView
+    <AutoCompleteTextView        
         android:id="@+id/searchString"
         android:layout_width="255dp"
         android:layout_height="30dp"
-        android:textSize="20dp"
-        android:ems="10"
+        android:textSize="20dp"        
         android:inputType="text"
         android:imeOptions="actionDone"
         android:completionThreshold="1"
-        android:background="@drawable/back"        
+        android:background="@drawable/back"  
+		android:textCursorDrawable="@null"
+		android:paddingLeft="5dp"      
  		>
  		<requestFocus/>
  	</AutoCompleteTextView>
 
     <Button
         android:id="@+id/searchButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/search_button_selector"
         android:text="@string/search_button" />
 
 </LinearLayout>

@@ -5,7 +5,7 @@
     <string name="title_offer_list">Seznam nabídek</string>
     <string name="title_product_list">Seznam produktů</string>
     <string name="title_product_detail">Detail produktu</string>
-    <string name="search_button">Hledej</string>    
+    <string name="search_button">Vyhledat</string>    
 	<string name="sort_up">Od nejdražšího</string>
 	<string name="sort_down">Od nejlevnějšího</string>
 	<string name="in_store">Zboží je skladem</string>
@@ -15,7 +15,7 @@
     <string name="productRow_image">Náhled obrázku</string>
                
     <string name="search_label">Dictionary</string>   
-    <string name="search_hint">Zadejte výraz&#8230;</string>      
+    <string name="search_hint">Vyhledat</string>      
     <string name="settings_description">Definitions of words</string>
     
 	
