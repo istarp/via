@@ -28,13 +28,16 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         getActionBar().setDisplayHomeAsUpEnabled(true);                                              
         
         if (savedInstanceState == null){
+    	          
+        	ProductListFragment productListFragment = new ProductListFragment();
+        	//ProgressFragment progressFragment = new ProgressFragment();
+        	productListFragment.setArguments(new Bundle());
+            getSupportFragmentManager().beginTransaction().add(R.id.product_list_container, productListFragment).commit();        	
+        	
 	        if (findViewById(R.id.product_detail_container) != null) {
-	            ((ProductListFragment) getSupportFragmentManager()
-	                    .findFragmentById(R.id.product_list))
-	                    .setActivateOnItemClick(true);
-	        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
-	        	offerDetailFragment.setArguments(new Bundle());
-	            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, offerDetailFragment).commit();
+	        	BlankFragment blankFragment = new BlankFragment();	           
+	        	blankFragment.setArguments(new Bundle());
+	            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, blankFragment).commit();
 	        }        
         }
         

@@ -20,7 +20,7 @@
         android:id="@+id/searchString"
         android:layout_width="255dp"
         android:layout_height="30dp"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:ems="10"
         android:inputType="text"
         android:imeOptions="actionDone"

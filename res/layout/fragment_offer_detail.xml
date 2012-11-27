@@ -5,19 +5,10 @@
     android:orientation="vertical" 
     android:divider="?android:attr/dividerHorizontal"
   	android:showDividers="middle"
-  	android:gravity="center"  
+  	android:gravity="left"  
   	android:id="@+id/offer_detail_container"
   	android:background="#ffffff"	
->            
-    
-<ImageView
-     android:id="@+id/logo_black"
-     android:layout_width="200dip"
-     android:layout_height="200dip"
-     android:contentDescription="@string/productRow_image"
-     android:layout_marginBottom="10dp"     
-     android:src="@drawable/back_black"             
- />
+>                
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -27,7 +18,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context=".OfferDetailFragment" 
-    android:visibility="gone"/>
+    />
 
 </LinearLayout> 
 

@@ -4,12 +4,9 @@ import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.Product;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ProductDetailFragment extends Fragment {
@@ -31,10 +28,7 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_product_detail, container, false);
-        if (mProduct != null){
-        	((ImageView) rootView.findViewById(R.id.logo_black)).setVisibility(View.GONE);
-        	((TextView) rootView.findViewById(R.id.product_detail)).setVisibility(View.VISIBLE);
-        	((LinearLayout) rootView.findViewById(R.id.product_detail_container)).setGravity(Gravity.LEFT);
+        if (mProduct != null){        	
         	((TextView) rootView.findViewById(R.id.product_detail)).setText("Selected Product: \r\n" + mProduct.getProductName());
         }
         return rootView;

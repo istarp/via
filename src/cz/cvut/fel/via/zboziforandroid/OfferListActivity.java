@@ -37,8 +37,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         
         if (savedInstanceState == null) {
         	OfferListFragment offerListFragment = new OfferListFragment();
+        	//ProgressFragment progressFragment = new ProgressFragment();
             offerListFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();            
+            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();
         }
         
         TextView productName = (TextView) findViewById(R.id.productOverview_name);
@@ -62,9 +63,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         if (findViewById(R.id.offer_detail_container) != null) {        	
             mTwoPane = true;
             if (savedInstanceState == null){
-	        	OfferDetailFragment offerDetailFragment = new OfferDetailFragment();
-	        	offerDetailFragment.setArguments(new Bundle());
-	            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, offerDetailFragment).commit();
+	        	BlankFragment blankFragment = new BlankFragment();
+	        	blankFragment.setArguments(new Bundle());
+	            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
             }
         }        
         
