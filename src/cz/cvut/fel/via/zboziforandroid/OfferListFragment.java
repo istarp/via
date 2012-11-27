@@ -8,8 +8,9 @@ import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.Offer;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+//import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 

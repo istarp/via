@@ -14,9 +14,9 @@
     <string name="productOverview_image">Náhled obrázku</string>
     <string name="productRow_image">Náhled obrázku</string>
                
-    <string name="search_label">Dictionary</string>   
-    <string name="search_hint">Vyhledat</string>      
-    <string name="settings_description">Definitions of words</string>
+    <string name="search_label">Vyhledávání</string>   
+    <string name="search_hint">Vyhledat&#8230;</string>      
+    <string name="settings_description">Vyhledávání zboží</string>
     
 	
 </resources>

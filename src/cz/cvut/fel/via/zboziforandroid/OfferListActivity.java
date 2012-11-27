@@ -39,7 +39,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         	OfferListFragment offerListFragment = new OfferListFragment();
         	//ProgressFragment progressFragment = new ProgressFragment();
             offerListFragment.setArguments(getIntent().getExtras());
-            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();
+            getFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();
         }
         
         TextView productName = (TextView) findViewById(R.id.productOverview_name);
@@ -65,7 +65,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
             if (savedInstanceState == null){
 	        	BlankFragment blankFragment = new BlankFragment();
 	        	blankFragment.setArguments(new Bundle());
-	            getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
+	            getFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
             }
         }        
         
@@ -115,7 +115,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 					this.sorted = true;
 				}	        	
 	            offerListFragment.setArguments(b);
-	            getSupportFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();;
+	            getFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();;
 				return (true);
 		}
         return super.onOptionsItemSelected(item);
@@ -179,12 +179,19 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 		Bundle arguments = new Bundle(getIntent().getExtras());		
 		arguments.putInt(OfferDetailFragment.PRODUCT_ID, getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
 		arguments.putInt(OfferDetailFragment.OFFER_ID, id);		
-        if (mTwoPane) {                        
-            OfferDetailFragment fragment = new OfferDetailFragment();
+        if (mTwoPane) {        	
+            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+    		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+    		OfferDetailFragment fragment = new OfferDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.offer_detail_container, fragment)
-                    .commit();
+        	ft.replace(R.id.offer_detail_container, fragment, "fragment");        		
+    		ft.commit();
+        	
+            //OfferDetailFragment fragment = new OfferDetailFragment();
+            //fragment.setArguments(arguments);
+            //getFragmentManager().beginTransaction()
+            //        .replace(R.id.offer_detail_container, fragment)
+            //        .commit();
         } else {        	
             Intent detailIntent = new Intent(this, OfferDetailActivity.class);
             detailIntent.putExtras(arguments);
@@ -195,13 +202,20 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	private void startProductDetail(int id){					
 		Bundle arguments = new Bundle(getIntent().getExtras());		
 		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);
-		arguments.remove(OfferDetailFragment.OFFER_ID);
+		arguments.remove(OfferDetailFragment.OFFER_ID);			
         if (mTwoPane) {                        
-            ProductDetailFragment fragment = new ProductDetailFragment();
+            android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+    		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+    		ProductDetailFragment fragment = new ProductDetailFragment();
             fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.offer_detail_container, fragment)
-                    .commit();
+        	ft.replace(R.id.offer_detail_container, fragment, "fragment");        		
+    		ft.commit();
+        	
+            //ProductDetailFragment fragment = new ProductDetailFragment();
+            //fragment.setArguments(arguments);
+            //getFragmentManager().beginTransaction()
+            //        .replace(R.id.offer_detail_container, fragment)
+            //        .commit();
         } else {        	
             Intent detailIntent = new Intent(this, OfferDetailActivity.class);
             detailIntent.putExtras(arguments);

@@ -32,12 +32,12 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
         		this.setTitle(R.string.title_offer_detail);
         		OfferDetailFragment fragment = new OfferDetailFragment();
         		fragment.setArguments(getIntent().getExtras());
-        		getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
+        		getFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
         	}else{
         		this.setTitle(R.string.title_product_detail);
         		ProductDetailFragment fragment = new ProductDetailFragment();
         		fragment.setArguments(getIntent().getExtras());
-        		getSupportFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
+        		getFragmentManager().beginTransaction().add(R.id.offer_detail_container, fragment).commit();
         	}            
         }
         handleIntent(getIntent());

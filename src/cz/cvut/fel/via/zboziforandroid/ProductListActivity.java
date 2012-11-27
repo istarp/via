@@ -32,12 +32,19 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         	ProductListFragment productListFragment = new ProductListFragment();
         	//ProgressFragment progressFragment = new ProgressFragment();
         	productListFragment.setArguments(new Bundle());
-            getSupportFragmentManager().beginTransaction().add(R.id.product_list_container, productListFragment).commit();        	        	                            	
+            getFragmentManager().beginTransaction().add(R.id.product_list_container, productListFragment).commit();
+            
+            //android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+    		//ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+    		//ProductListFragment productListFragment = new ProductListFragment();
+        	//productListFragment.setArguments(new Bundle());
+        	//ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
+    		//ft.commit();
             
 	        if (findViewById(R.id.product_detail_container) != null) {
 	        	BlankFragment blankFragment = new BlankFragment();	           
 	        	blankFragment.setArguments(new Bundle());
-	            getSupportFragmentManager().beginTransaction().add(R.id.product_detail_container, blankFragment).commit();
+	            getFragmentManager().beginTransaction().add(R.id.product_detail_container, blankFragment).commit();
 	        }        
         }
         
@@ -57,7 +64,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
             if (cursor != null) {            	
                 cursor.moveToFirst();
                 int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
-                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();                          	
             }
         }
     }    
@@ -74,7 +81,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     	
         switch (item.getItemId()) {
         	case R.id.action_search:
-        		onSearchRequested();
+        		onSearchRequested();        		        		        		               
         		return true;
         	case android.R.id.home:
         		finish();
