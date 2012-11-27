@@ -76,7 +76,8 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
         return super.onOptionsItemSelected(item);
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
@@ -89,6 +90,7 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);
+        mSearchView.setMaxWidth(getWindowManager().getDefaultDisplay().getWidth());
                 
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);        

@@ -117,7 +117,8 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		searchedString.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, QueryDatabase.QUERIES));		
 	}
 	
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
@@ -129,8 +130,9 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
-        mSearchView.setOnQueryTextFocusChangeListener(this);
-                
+        mSearchView.setOnQueryTextFocusChangeListener(this);                        
+        mSearchView.setMaxWidth(getWindowManager().getDefaultDisplay().getWidth());
+        
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);        
       
@@ -152,6 +154,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 	public void onResume() {
 		if(mMenu != null){
 			collapseSearchMenu();
+			searchedString.setText("");			
 		}
 		super.onResume();
 	}

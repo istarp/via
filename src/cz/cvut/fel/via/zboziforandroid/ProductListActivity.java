@@ -84,7 +84,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         return super.onOptionsItemSelected(item);
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
 
@@ -97,6 +98,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);
+        mSearchView.setMaxWidth(getWindowManager().getDefaultDisplay().getWidth());
                 
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);        

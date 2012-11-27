@@ -121,7 +121,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         return super.onOptionsItemSelected(item);
     }
     
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
  
@@ -132,7 +133,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
-        mSearchView.setOnQueryTextFocusChangeListener(this);        	        
+        mSearchView.setOnQueryTextFocusChangeListener(this);  
+        mSearchView.setMaxWidth(getWindowManager().getDefaultDisplay().getWidth());
         
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
