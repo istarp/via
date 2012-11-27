@@ -75,6 +75,10 @@ public class QueryDatabase {
 		}
 	}
 	
+	public static void deleteQuerries(){	
+        mDatabaseOpenHelper.getWritableDatabase().delete(FTS_VIRTUAL_TABLE, null, null);	
+	}	
+	
 	private static String[] toArray(){
 		return queries.toArray(new String[0]);
 	}
