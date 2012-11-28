@@ -88,6 +88,10 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
                 Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
             }
         }
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

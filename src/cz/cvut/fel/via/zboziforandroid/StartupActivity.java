@@ -47,7 +47,11 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                	doSearch(searchedString.getText().toString());
+    				if (isOnline()){
+    					doSearch(searchedString.getText().toString());
+    				}else{
+    					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+    				}
                     return true;
                 }
                 return false;
@@ -84,6 +88,10 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
                 int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
                 Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
             }
+        }
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
         }
     }       
     
