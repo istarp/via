@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -56,7 +58,11 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         searchButton.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-		        doSearch(searchedString.getText().toString());				
+				if (isOnline()){
+					doSearch(searchedString.getText().toString());
+				}else{
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+				}
 			}
 		});
             
@@ -175,6 +181,15 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
     @Override
     public boolean onSearchRequested() {
     	return true;
-    }	
+    }
+    
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
+    }
 	
 }
