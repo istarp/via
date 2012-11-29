@@ -13,6 +13,6 @@ bin/
 gen/
 
 .classpath
-
+.project
 # Local configuration file (sdk path, etc)
 local.properties
