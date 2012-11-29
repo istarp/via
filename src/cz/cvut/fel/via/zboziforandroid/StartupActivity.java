@@ -39,8 +39,8 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         
         new QueryDatabase(getApplicationContext());
         
-        QueryDatabase.refreshQueries();
-    	QueryDatabase.saveQuerry("sracka");
+        QueryDatabase.refreshQueries(); 
+    	QueryDatabase.saveQuerry("kolotoc");
     	
         
         final Button searchButton = (Button) findViewById(R.id.searchButton);
