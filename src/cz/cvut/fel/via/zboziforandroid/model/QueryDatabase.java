@@ -23,7 +23,7 @@ public class QueryDatabase {
     private static final HashMap<String,String> mColumnMap = buildColumnMap();
     
     public static String[] QUERIES = {};	
-    private static HashSet<String> queries = new HashSet<String>();
+    private static HashSet<String> queries = new HashSet<String>();    
 
     public QueryDatabase(Context context) {
         mDatabaseOpenHelper = new QueryOpenHelper(context);
@@ -77,7 +77,12 @@ public class QueryDatabase {
 	
 	public static void deleteQuerries(){	
         mDatabaseOpenHelper.getWritableDatabase().delete(FTS_VIRTUAL_TABLE, null, null);	
-	}	
+	}
+	
+	public static void refreshQueries(){		
+		queries = new HashSet<String>();
+		deleteQuerries();
+	}
 	
 	private static String[] toArray(){
 		return queries.toArray(new String[0]);

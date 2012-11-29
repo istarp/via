@@ -37,6 +37,12 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);               
         
+        new QueryDatabase(getApplicationContext());
+        
+        QueryDatabase.refreshQueries();
+    	QueryDatabase.saveQuerry("sracka");
+    	
+        
         final Button searchButton = (Button) findViewById(R.id.searchButton);
         searchedString = (AutoCompleteTextView) findViewById(R.id.searchString);        
         
@@ -95,22 +101,9 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         }
     }       
     
-    private void doSearch(String query){    	
-    	
-    	//XXXXXXX
-    	QueryDatabase.deleteQuerries();
-    	QueryDatabase.saveQuerry("ahoj");
-    	QueryDatabase.saveQuerry("baba");
-    	QueryDatabase.saveQuerry("deda");
-    	QueryDatabase.saveQuerry("kolotoc");
-    	QueryDatabase.saveQuerry("neco");
-    	QueryDatabase.saveQuerry("nic");    	
-    	//XXXXXX
-    	
-    	QueryDatabase.saveQuerry(query);
-    	
-        Intent listIntent = new Intent(this, ProductListActivity.class);        
-    	//Intent listIntent = new Intent(this, SearchableDictionary.class);
+    private void doSearch(String query){    	    
+    	QueryDatabase.saveQuerry(query);    	
+        Intent listIntent = new Intent(this, ProductListActivity.class);            	
         startActivity(listIntent);    	
     }
 

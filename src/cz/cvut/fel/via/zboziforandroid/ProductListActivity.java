@@ -30,7 +30,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         if (savedInstanceState == null){    	     
         	
         	ProductListFragment productListFragment = new ProductListFragment();
-        	//ProgressFragment progressFragment = new ProgressFragment();
+        	//ProgressFragment productListFragment = new ProgressFragment();
         	productListFragment.setArguments(new Bundle());
             getFragmentManager().beginTransaction().add(R.id.product_list_container, productListFragment).commit();
             
@@ -85,7 +85,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     	
         switch (item.getItemId()) {
         	case R.id.action_search:
-        		onSearchRequested();        		        		        		               
+        		onSearchRequested();         	        		
         		return true;
         	case android.R.id.home:
         		finish();

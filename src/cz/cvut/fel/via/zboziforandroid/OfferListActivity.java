@@ -203,7 +203,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         }				
 	}
 	
-	private void startProductDetail(int id){					
+	private void startProductDetail(int id){				
 		Bundle arguments = new Bundle(getIntent().getExtras());		
 		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);
 		arguments.remove(OfferDetailFragment.OFFER_ID);			
