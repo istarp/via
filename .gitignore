@@ -13,6 +13,10 @@ bin/
 gen/
 
 .classpath
+<<<<<<< HEAD
 
+=======
+.project
+>>>>>>> 36ed3577be6dec21d60d519104fb573f20e92da9
 # Local configuration file (sdk path, etc)
 local.properties
