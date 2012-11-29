@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"    
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:divider="?android:attr/dividerHorizontal"
+    android:showDividers="middle"
+    tools:context=".ProductListActivity"
+    
+    >    	    	          
+	
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    		xmlns:tools="http://schemas.android.com/tools"
+    		android:id="@+id/product_list_container"
+    		android:layout_width="0dp"
+    		android:layout_height="match_parent"
+    		android:layout_weight="1"
+    		tools:context=".ProductListActivity" 
+    		android:listSelector="@drawable/list_selector"
+    		android:layout_marginTop="2dp"	/>	
+
+	<View
+    	android:layout_width="1dp"
+    	android:layout_height="fill_parent"
+    	android:background="@android:color/darker_gray"/>
+	
+    <FrameLayout android:id="@+id/product_detail_container"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+</LinearLayout>
