@@ -1,11 +1,9 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import cz.cvut.fel.via.zboziforandroid.client.items.Item;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
-import cz.cvut.fel.via.zboziforandroid.model.Offer;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
 import android.app.ListFragment;
@@ -21,7 +19,7 @@ public class OfferListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    private List<Offer> mOffers;
+    private List<Item> mOffers;
 
     public interface Callbacks {
 
@@ -39,8 +37,8 @@ public class OfferListFragment extends ListFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState); 
-        this.mOffers = new ArrayList<Offer>(Database.PRODUCTS.get(getArguments().getInt(ProductListFragment.PRODUCT_LIST_ID)).getOffers().values());
+        super.onCreate(savedInstanceState);         
+        this.mOffers = Database.ITEMS;
         Collections.sort(this.mOffers);
         if (getArguments().containsKey(RESORT))
         	Collections.reverse(this.mOffers);
@@ -75,7 +73,7 @@ public class OfferListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
         super.onListItemClick(listView, view, position, id);        
-        mCallbacks.onItemSelected(this.mOffers.get(position).getId());
+        mCallbacks.onItemSelected(position);
     }
 
     @Override

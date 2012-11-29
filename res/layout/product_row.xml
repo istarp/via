@@ -9,10 +9,11 @@
    >
        <ImageView
             android:id="@+id/product_row_image"
-            android:layout_width="69dp"
-            android:layout_height="69dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:contentDescription="@string/productRow_image"
             android:layout_marginRight="10dp"
+            android:layout_gravity="center"
         />
     
         <TextView

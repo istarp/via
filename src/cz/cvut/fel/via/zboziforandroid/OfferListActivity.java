@@ -1,7 +1,9 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
+import cz.cvut.fel.via.zboziforandroid.client.items.ItemsResponse;
+import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
-import cz.cvut.fel.via.zboziforandroid.model.Product;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +30,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
     private SearchView mSearchView; 
     private Menu mMenu; 
     private boolean sorted = true;
+    private Handler handler;
+    private int id; 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,27 +41,22 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
         if (savedInstanceState == null) {
-        	OfferListFragment offerListFragment = new OfferListFragment();
-        	//ProgressFragment progressFragment = new ProgressFragment();
-            offerListFragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();
+        	ProgressFragment progressFragment = new ProgressFragment();
+        	progressFragment.setArguments(getIntent().getExtras());
+            getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();
         }
         
-        TextView productName = (TextView) findViewById(R.id.productOverview_name);
-        TextView productDescription = (TextView) findViewById(R.id.productOverview_description);
-        ImageView productImage = (ImageView) findViewById(R.id.productOverview_image);
         LinearLayout productOverview = (LinearLayout) findViewById(R.id.productOverview);
         
-        Product product = Database.PRODUCTS.get(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
-        productName.setText(product.getProductName());
-        productDescription.setText(product.getDescription());
-        //productImage.setImageDrawable(product.getImage());
-        productImage.setImageDrawable(getResources().getDrawable(R.drawable.example));
+        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID);
+        this.handler = new Handler();
+        this.loadProduct();
+        this.loadItems();
         
         productOverview.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				startProductDetail(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));								
+				startProductDetail();							
 			}
 		}); 
                 
@@ -180,9 +180,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 	}
 	
 	private void startOfferDetail(int id){					
-		Bundle arguments = new Bundle(getIntent().getExtras());		
-		arguments.putInt(OfferDetailFragment.PRODUCT_ID, getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
-		arguments.putInt(OfferDetailFragment.OFFER_ID, id);		
+		Bundle arguments = new Bundle(getIntent().getExtras());				
+		arguments.putInt(OfferDetailFragment.OFFER_ID, id);			
         if (mTwoPane) {        	
             android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
     		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
@@ -203,10 +202,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         }				
 	}
 	
-	private void startProductDetail(int id){				
-		Bundle arguments = new Bundle(getIntent().getExtras());		
-		arguments.putInt(OfferDetailFragment.PRODUCT_ID, id);
-		arguments.remove(OfferDetailFragment.OFFER_ID);			
+	private void startProductDetail(){				
+		Bundle arguments = new Bundle(getIntent().getExtras());				
+		arguments.remove(OfferDetailFragment.OFFER_ID);
         if (mTwoPane) {                        
             android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
     		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
@@ -230,6 +228,52 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
     @Override
     public boolean onSearchRequested() {
     	return true;
-    }	
+    }
+    
+    private void loadProduct(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+            	ViaClientHttp c = new ViaClientHttp();	      	
+		      	ProductResponse response = c.getProduct(id);		      	
+		      	Database.fillProduct(response.getProductAttributes());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        TextView productName = (TextView) findViewById(R.id.productOverview_name);
+                        TextView productDescription = (TextView) findViewById(R.id.productOverview_description);
+                        ImageView productImage = (ImageView) findViewById(R.id.productOverview_image);                        
+                        productName.setText(Database.PRODUCT.getProductName());
+                        productDescription.setText(Database.PRODUCT.getDescription());
+                        productImage.setImageBitmap(Database.PRODUCT.getSmallImage());
+                    }
+                });
+            }
+        };
+        new Thread(runnable).start();    	
+    }
+    
+    private void loadItems(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+            	ViaClientHttp c = new ViaClientHttp();	      	
+		      	ItemsResponse response = c.getItems(id, 1, 10, "", false, "", false, -1, false, false);		      	
+		      	Database.fillItems(response.getItems());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
+                		OfferListFragment offerListFragment = new OfferListFragment();                    	
+                		offerListFragment.setArguments(getIntent().getExtras());                                        		
+                    	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
+                		ft.commit();
+                    }
+                });
+            }
+        };
+        new Thread(runnable).start();    	
+    }    
 
 }

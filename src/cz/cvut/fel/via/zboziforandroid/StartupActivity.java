@@ -1,7 +1,5 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
-import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,21 +40,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         new QueryDatabase(getApplicationContext());
         
         QueryDatabase.refreshQueries(); 
-    	QueryDatabase.saveQuerry("sracka2");
-    	
-    	
-    	
-    	Runnable runnable = new Runnable() {
-    	      @Override
-    	      public void run() {
-    	    	  ViaClientHttp c = new ViaClientHttp();
-    	      	
-    	      	ProductsResponse r = c.getProducts("nokia e50", 1, 5, "relevance", "asc", 1000, 5000);
-    	      	if(r != null)
-    	      	Log.v("product", r.toString());
-    	        }    	      
-    	    };
-    	    new Thread(runnable).start();
+    	QueryDatabase.saveQuerry("sracka2");    	    	    	
         
         final Button searchButton = (Button) findViewById(R.id.searchButton);
         searchedString = (AutoCompleteTextView) findViewById(R.id.searchString);        
@@ -69,11 +52,13 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-    				if (isOnline()){
-    					doSearch(searchedString.getText().toString());
-    				}else{
-    					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
-    				}
+                	if (searchedString.getText().length() > 0){
+	    				if (isOnline()){
+	    					doSearch(searchedString.getText().toString());
+	    				}else{
+	    					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+	    				}
+                	}
                     return true;
                 }
                 return false;
@@ -84,10 +69,12 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         searchButton.setOnClickListener(new OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				if (isOnline()){
-					doSearch(searchedString.getText().toString());
-				}else{
-					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+				if (searchedString.getText().length() > 0){
+					if (isOnline()){
+						doSearch(searchedString.getText().toString());
+					}else{
+						Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+					}
 				}
 			}
 		});
@@ -119,7 +106,8 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
     
     private void doSearch(String query){    	    
     	QueryDatabase.saveQuerry(query);    	
-        Intent listIntent = new Intent(this, ProductListActivity.class);            	
+        Intent listIntent = new Intent(this, ProductListActivity.class);                
+        listIntent.putExtra(ProductListActivity.SEARCHED_STRING, query);
         startActivity(listIntent);    	
     }
 
