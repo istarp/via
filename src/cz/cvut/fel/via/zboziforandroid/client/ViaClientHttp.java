@@ -15,6 +15,7 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 
+import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
 import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
 
 import android.net.Uri;
@@ -31,6 +32,36 @@ public class ViaClientHttp {
         httpClient.getCredentialsProvider().setCredentials(
                 new AuthScope("api.zbozi.sbeta.cz", 80),
                 new UsernamePasswordCredentials("cvut", "pqvDd-wek2D"));
+    }
+    
+    
+    public ProductResponse getProduct(int id) {
+        ProductResponse p = null;
+        try {
+        	 Uri.Builder ub = Uri.parse(url).buildUpon();
+             ub.path("1/product");
+             
+             //add parameters
+            ub.appendQueryParameter("productId", Integer.toString(id));
+            
+            //create url
+            String url = ub.build().toString();
+            System.out.println("Actual request:\n " + url + "\n");
+            HttpGet httpGet = new HttpGet(url);
+            HttpResponse response = httpClient.execute(httpGet,localContex);
+            HttpEntity entity = response.getEntity();
+            Gson gson = new Gson();
+            p = gson.fromJson(EntityUtils.toString(entity), ProductResponse.class);
+
+        } catch (ClientProtocolException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e.toString());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            System.out.println(e.toString());
+        }
+
+        return p;
     }
     
     public ProductsResponse getProducts(String query, int offset, int limit, String criterion, String direction,
@@ -55,13 +86,12 @@ public class ViaClientHttp {
             ub.appendQueryParameter("minPrice", Double.toString(minPrice));
             ub.appendQueryParameter("maxPrice", Double.toString(maxPrice));
             
-//            URI uri = ub.build();
+            //create url
             String url = ub.build().toString();
             System.out.println("Actual request:\n " + url + "\n");
             HttpGet httpGet = new HttpGet(url);
             HttpResponse response = httpClient.execute(httpGet,localContex);
             HttpEntity entity = response.getEntity();
-//            System.out.println(EntityUtils.toString(entity));
             Gson gson = new Gson();
             productsResponse = gson.fromJson(EntityUtils.toString(entity), ProductsResponse.class);
 
