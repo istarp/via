@@ -9,6 +9,8 @@ import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
@@ -19,7 +21,8 @@ import android.net.Uri;
 public class ViaClientHttp {
 
 	DefaultHttpClient httpClient;
-    public final static String url = "http://api.zbozi.sbeta.cz/1/";
+    public final static String url = "http://api.zbozi.sbeta.cz";
+    HttpContext localContex = new BasicHttpContext();
 
     public ViaClientHttp() {
         httpClient = new DefaultHttpClient();
@@ -34,7 +37,7 @@ public class ViaClientHttp {
         try {
         	
             Uri.Builder ub = Uri.parse(url).buildUpon();
-            ub.path("products");
+            ub.path("1/products");
 
             
             //add parameters
@@ -54,7 +57,7 @@ public class ViaClientHttp {
             String url = ub.build().toString();
             System.out.println("Actual request:\n " + url + "\n");
             HttpGet httpGet = new HttpGet(url);
-            HttpResponse response = httpClient.execute(httpGet);
+            HttpResponse response = httpClient.execute(httpGet,localContex);
             HttpEntity entity = response.getEntity();
 //            System.out.println(EntityUtils.toString(entity));
             Gson gson = new Gson();
