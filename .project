@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>ZboziForAndroid</name>
+=======
+	<name>cz.cvut.fel.via.zboziforandroid.StartupActivity</name>
+>>>>>>> e3bfc5e23184fd17d5cf85e49e2bcf5ed2b8dfa4
 	<comment></comment>
 	<projects>
 	</projects>
