@@ -9,11 +9,82 @@ public class ItemsResponse {
     private String[] regionsAggregated;
     private String versionId;
     private int[] products;
-    private int resultCount;
-    
+    private int resultCount;    
     private Item[] items;
 
-    @Override
+    public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public String getStatusMessage() {
+		return statusMessage;
+	}
+
+	public void setStatusMessage(String statusMessage) {
+		this.statusMessage = statusMessage;
+	}
+
+	public String[] getPaymentTypesAggregated() {
+		return paymentTypesAggregated;
+	}
+
+	public void setPaymentTypesAggregated(String[] paymentTypesAggregated) {
+		this.paymentTypesAggregated = paymentTypesAggregated;
+	}
+
+	public String[] getAvailabilitiesAggregated() {
+		return availabilitiesAggregated;
+	}
+
+	public void setAvailabilitiesAggregated(String[] availabilitiesAggregated) {
+		this.availabilitiesAggregated = availabilitiesAggregated;
+	}
+
+	public String[] getRegionsAggregated() {
+		return regionsAggregated;
+	}
+
+	public void setRegionsAggregated(String[] regionsAggregated) {
+		this.regionsAggregated = regionsAggregated;
+	}
+
+	public String getVersionId() {
+		return versionId;
+	}
+
+	public void setVersionId(String versionId) {
+		this.versionId = versionId;
+	}
+
+	public int[] getProducts() {
+		return products;
+	}
+
+	public void setProducts(int[] products) {
+		this.products = products;
+	}
+
+	public int getResultCount() {
+		return resultCount;
+	}
+
+	public void setResultCount(int resultCount) {
+		this.resultCount = resultCount;
+	}
+
+	public Item[] getItems() {
+		return items;
+	}
+
+	public void setItems(Item[] items) {
+		this.items = items;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ItemsResponse{" + "status=" + status + ", statusMessage=" + statusMessage + 
                 ", versionId=" + versionId + ", resultCount=" + resultCount + "}\n");

@@ -1,5 +1,8 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
+import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
+import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
@@ -7,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,8 +22,11 @@ import android.widget.Toast;
 public class ProductListActivity extends FragmentActivity implements ProductListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 	
     private SearchView mSearchView; 
-    private Menu mMenu;    
-
+    private Menu mMenu; 
+    private Handler handler;
+    private String searchedString = "";
+    public static String SEARCHED_STRING = "searched_string";          
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +35,14 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         getActionBar().setDisplayHomeAsUpEnabled(true);                                              
         
         if (savedInstanceState == null){    	     
-        	
-        	ProductListFragment productListFragment = new ProductListFragment();
-        	//ProgressFragment productListFragment = new ProgressFragment();
-        	productListFragment.setArguments(new Bundle());
-            getFragmentManager().beginTransaction().add(R.id.product_list_container, productListFragment).commit();
+        	        	
+        	ProgressFragment progressFragment = new ProgressFragment();
+        	progressFragment.setArguments(new Bundle());
+            getFragmentManager().beginTransaction().add(R.id.product_list_container, progressFragment).commit();                                    
             
-            //android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
-    		//ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-    		//ProductListFragment productListFragment = new ProductListFragment();
-        	//productListFragment.setArguments(new Bundle());
-        	//ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
-    		//ft.commit();
+            this.searchedString = getIntent().getExtras().getString(SEARCHED_STRING);
+            this.handler = new Handler();
+            this.loadProducts();            
             
 	        if (findViewById(R.id.product_detail_container) != null) {
 	        	BlankFragment blankFragment = new BlankFragment();	           
@@ -75,8 +78,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 
     @Override
     public void onItemSelected(int id) {       	
-        Intent detailIntent = new Intent(this, OfferListActivity.class);
-        detailIntent.putExtra(ProductListFragment.PRODUCT_LIST_ID, id);
+        Intent detailIntent = new Intent(this, OfferListActivity.class);               
+        detailIntent.putExtra(ProductListFragment.PRODUCT_LIST_ID, Database.PRODUCTS.get(id).getId());
         startActivity(detailIntent);           
     }
     
@@ -152,6 +155,29 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     @Override
     public boolean onSearchRequested() {
     	return true;
+    }
+    
+    private void loadProducts(){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+            	ViaClientHttp c = new ViaClientHttp();	      	
+		      	ProductsResponse response = c.getProducts(searchedString, 1, 10, "relevance", "asc", 0, -1);		      	
+		      	Database.fillProducts(response.getProducts());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+                		ProductListFragment productListFragment = new ProductListFragment();
+                    	productListFragment.setArguments(new Bundle());
+                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
+                		ft.commit();
+                    }
+                });
+            }
+        };
+        new Thread(runnable).start();    	
     }
 
 }

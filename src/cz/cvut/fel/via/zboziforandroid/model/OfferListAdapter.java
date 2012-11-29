@@ -2,6 +2,7 @@ package cz.cvut.fel.via.zboziforandroid.model;
 
 import java.util.List;
 import cz.cvut.fel.via.zboziforandroid.R;
+import cz.cvut.fel.via.zboziforandroid.client.items.Item;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,14 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickListener{
+public class OfferListAdapter extends ArrayAdapter<Item> implements OnClickListener{
 	
     private int resource;
     private LayoutInflater inflater;    
-    private List<Offer> offers;
+    private List<Item> offers;
     private Context context;    
 
-	public OfferListAdapter(Context context, int textViewResourceId, List<Offer> objects) {
+	public OfferListAdapter(Context context, int textViewResourceId, List<Item> objects) {
 		super(context, textViewResourceId, objects);
         this.resource = textViewResourceId;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);        
@@ -65,9 +66,9 @@ public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickList
             holder = (ViewHolder) convertView.getTag();  
         }
 		
-		Offer offer = this.offers.get(position);
+		Item offer = this.offers.get(position);
         holder.shopName.setText(offer.getPremiseName());
-		holder.price.setText(offer.getVatPrice());
+		holder.price.setText(offer.getVatPrice().substring(0, offer.getVatPrice().length() - 3));
 		holder.status.setText(offer.getStockAvailability() == 0 ? R.string.in_store : R.string.out_store);
 		holder.locality.setVisibility(View.GONE);
 		holder.status.setTextColor(offer.getStockAvailability() == 0 ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
@@ -83,7 +84,7 @@ public class OfferListAdapter extends ArrayAdapter<Offer> implements OnClickList
     }
 
     @Override
-    public Offer getItem(int position) {
+    public Item getItem(int position) {
         return this.offers.get(position);
     }
 

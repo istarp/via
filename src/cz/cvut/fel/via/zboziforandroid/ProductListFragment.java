@@ -5,11 +5,10 @@ import java.util.List;
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
-//import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
+import cz.cvut.fel.via.zboziforandroid.client.products.Products;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
-import cz.cvut.fel.via.zboziforandroid.model.Product;
 import cz.cvut.fel.via.zboziforandroid.model.ProductListAdapter;
 
 public class ProductListFragment extends ListFragment {
@@ -19,7 +18,7 @@ public class ProductListFragment extends ListFragment {
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
-    private List<Product> mProducts;
+    private List<Products> mProducts;
 
     public interface Callbacks {
 
@@ -38,7 +37,7 @@ public class ProductListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); 
-        this.mProducts = new ArrayList<Product>(Database.PRODUCTS);
+        this.mProducts = new ArrayList<Products>(Database.PRODUCTS);
         setListAdapter(new ProductListAdapter(getActivity(), R.layout.product_row, this.mProducts));
     }
 
