@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 
+import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
+
 import android.net.Uri;
 
 

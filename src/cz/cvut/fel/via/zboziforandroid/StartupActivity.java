@@ -1,7 +1,7 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import cz.cvut.fel.via.zboziforandroid.client.ProductsResponse;
 import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
+import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
