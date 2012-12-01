@@ -68,10 +68,19 @@ public class OfferListAdapter extends ArrayAdapter<Item> implements OnClickListe
 		
 		Item offer = this.offers.get(position);
         holder.shopName.setText(offer.getPremiseName());
-		holder.price.setText(offer.getVatPrice().substring(0, offer.getVatPrice().length() - 3));
-		holder.status.setText(offer.getStockAvailability() == 0 ? R.string.in_store : R.string.out_store);
+		holder.price.setText(offer.getVatPrice().substring(0, offer.getVatPrice().length() - 3));		
 		holder.locality.setVisibility(View.GONE);
-		holder.status.setTextColor(offer.getStockAvailability() == 0 ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
+		holder.status.setTextColor(offer.getMinStockAvailability().equals("immediately") ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
+		holder.status.setText(R.string.availability_default);
+		if (offer.getMinStockAvailability().equals("immediately")){
+			holder.status.setText(R.string.availability_immediately);
+		}
+		if (offer.getMinStockAvailability().equals("in_week")){
+			holder.status.setText(R.string.availability_in_week);
+		}
+		if (offer.getMinStockAvailability().equals("all")){
+			holder.status.setText(R.string.availability_all);
+		}	
 		holder.button.setOnClickListener(this);;
         holder.position = position;
           

@@ -87,7 +87,7 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
 
         this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.searchview_in_menu, menu);
+        inflater.inflate(R.menu.basic_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               

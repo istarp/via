@@ -15,6 +15,7 @@ public class ProductListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
     public static final String PRODUCT_LIST_ID = "product_list_id";
+    public static final String PRODUCT_ID = "product_id";
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;

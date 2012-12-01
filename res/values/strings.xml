@@ -8,16 +8,57 @@
     <string name="search_button">Vyhledat</string>    
 	<string name="sort_up">Od nejdražšího</string>
 	<string name="sort_down">Od nejlevnějšího</string>
-	<string name="in_store">Zboží je skladem</string>
-	<string name="out_store">neznámá</string>
     <string name="currency">Kč</string>
     <string name="productOverview_image">Náhled obrázku</string>
     <string name="productRow_image">Náhled obrázku</string>
     <string name="not_online">Pro tuto akci je nutné připojení k internetu.</string>
-               
+        
+    <string name="availability_immediately">Zboží je skladem</string>  
+    <string name="availability_in_week">Do týdne</string>  
+    <string name="availability_all">Více než týden</string>  
+    <string name="availability_default">Neznámá</string>  
+    <string name="no_input">Nejprve vložte hledaný řetězec</string>
+    <string name="connection_problem">Omlouváme se, ale při komunikaci se serverem došlo k chybě. Zkontrolujte připojení k internetu a opakujte akci později.</string>
+    
     <string name="search_label">Vyhledávání</string>   
     <string name="search_hint">Vyhledat&#8230;</string>      
     <string name="settings_description">Vyhledávání zboží</string>
     
-	
+    <string-array name="product_limit_array">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+    </string-array>
+    <string name="product_limit_label">Počet položek:</string>
+    
+    <string name="product_criterion_0">Relevance</string>
+    <string name="product_criterion_1">Ceny</string>
+    <string name="product_criterion_2">Abecedně</string>  
+    <string-array name="product_criterion_array">
+        <item>@string/product_criterion_0</item>
+        <item>@string/product_criterion_1</item>
+        <item>@string/product_criterion_2</item>        
+    </string-array>
+    <string name="product_criterion_label">Řadit podle:</string>
+     
+    <string name="product_direction_0">Vzestupně</string>
+    <string name="product_direction_1">Sestupně</string>
+    <string-array name="product_direction_array">
+        <item>@string/product_direction_0</item>
+        <item>@string/product_direction_1</item>               
+    </string-array>
+    <string name="product_direction_label">Směr řazení:</string>
+    
+    <string name="product_price_label">Cena:</string> 
+    <string name="product_price">Bez omezení</string>  
+    <string name="product_price_from">Od:</string>
+    <string name="product_price_to">Do:</string>
+    
+    <string name="positive_button">OK</string>
+    <string name="negative_button">Cancel</string>
+    <string name="filter_set">Nastavit filtry</string>
+    
+    
 </resources>

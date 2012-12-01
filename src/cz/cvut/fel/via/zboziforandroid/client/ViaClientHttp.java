@@ -1,7 +1,5 @@
 package cz.cvut.fel.via.zboziforandroid.client;
 
-import java.io.IOException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -57,7 +55,7 @@ public class ViaClientHttp {
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
         }
@@ -99,7 +97,7 @@ public class ViaClientHttp {
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
         }
@@ -164,7 +162,7 @@ public class ViaClientHttp {
         } catch (ClientProtocolException e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             System.out.println(e.toString());
         }

@@ -1,10 +1,8 @@
 package cz.cvut.fel.via.zboziforandroid.client.products;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -131,8 +129,8 @@ public class Products {
             conn.connect();
             InputStream is = conn.getInputStream();            
             img = BitmapFactory.decodeStream(is);            
-       } catch (IOException e) {            
-            e.printStackTrace();
+       } catch (Exception e) {            
+            img = null;
        }
 	}
 
