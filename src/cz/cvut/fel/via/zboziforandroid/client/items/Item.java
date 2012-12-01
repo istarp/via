@@ -162,6 +162,28 @@ public class Item implements Comparable<Item>{
 			return 1;
 		return -1;
 	}
+	
+	public String getDepotsStrings(){
+		StringBuilder sb = new StringBuilder();
+		for (Depot d : this.depots){
+			sb.append(d.getLocality() + ", ");
+		}
+		if (sb.length() > 2)
+			return sb.toString().substring(0, sb.length() - 2);
+		return "";
+	}
+	
+	public String getStoresStrings(){
+		StringBuilder sb = new StringBuilder();
+		for (Store s : this.stores){
+			sb.append(s.getLocality() + ", ");
+		}
+		if (sb.length() > 2)
+			return sb.toString().substring(0, sb.length() - 2);
+		return "";
+	}		
+	
+	
     
 }
 class PaymentTypes {

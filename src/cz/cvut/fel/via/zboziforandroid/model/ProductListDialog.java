@@ -25,16 +25,16 @@ public class ProductListDialog extends DialogFragment{
         public void onDialogNegativeClick(DialogFragment dialog);
     }
 	
-    NoticeDialogListener mListener;
-    Spinner productLimit;
-    Spinner productCriterion;
-    Spinner productDirection;
-    CheckBox productPrice;
-    LinearLayout productPriceFrom;
-    LinearLayout productPriceTo;
-    SharedPreferences settings;
-    EditText productPriceFrom_value;
-    EditText productPriceTo_value;
+    private NoticeDialogListener mListener;
+    private Spinner productLimit;
+    private Spinner productCriterion;
+    private Spinner productDirection;
+    private CheckBox productPrice;
+    private LinearLayout productPriceFrom;
+    private LinearLayout productPriceTo;
+    private SharedPreferences settings;
+    private EditText productPriceFrom_value;
+    private EditText productPriceTo_value;
         
     @Override
     public void onAttach(Activity activity) {
@@ -70,9 +70,9 @@ public class ProductListDialog extends DialogFragment{
         productCriterion.setAdapter(adapter);
                 
         switch (settings.getInt(Database.productCriterion, 0)){        
-        case 1: position = adapter.getPosition(getResources().getString(R.string.product_criterion_1)); break;
-        case 2: position = adapter.getPosition(getResources().getString(R.string.product_criterion_2)); break;
-        default: position = adapter.getPosition(getResources().getString(R.string.product_criterion_0)); break;
+	        case 1: position = adapter.getPosition(getResources().getString(R.string.product_criterion_1)); break;
+	        case 2: position = adapter.getPosition(getResources().getString(R.string.product_criterion_2)); break;
+	        default: position = adapter.getPosition(getResources().getString(R.string.product_criterion_0)); break;
         }        	        		
         productCriterion.setSelection(position);
         
@@ -82,8 +82,8 @@ public class ProductListDialog extends DialogFragment{
         productDirection.setAdapter(adapter); 
         
         switch (settings.getInt(Database.productDirection, 0)){        
-        case 1: position = adapter.getPosition(getResources().getString(R.string.product_direction_1)); break;
-        default: position = adapter.getPosition(getResources().getString(R.string.product_direction_0)); break;
+	        case 1: position = adapter.getPosition(getResources().getString(R.string.product_direction_1)); break;
+	        default: position = adapter.getPosition(getResources().getString(R.string.product_direction_0)); break;
         }        	        		       
         productDirection.setSelection(position);
         
@@ -131,7 +131,10 @@ public class ProductListDialog extends DialogFragment{
                    	   prefEditor.putInt(Database.productDirection, productDirection.getSelectedItemPosition());
                    	   prefEditor.putInt(Database.productCriterion, productCriterion.getSelectedItemPosition());
                    	   prefEditor.putInt(Database.productLimit, Integer.parseInt(productLimit.getSelectedItem().toString()));
-                   	   if(productPriceFrom.getVisibility() == 0){
+                   	   if(productPrice.isChecked()){
+                   		   prefEditor.putInt(Database.productMaxPrice, -1);
+                   		   prefEditor.putInt(Database.productMinPrice, 0);
+                   	   }else{
                    		   if(!productPriceTo_value.getText().toString().equals(""))
                    			   prefEditor.putInt(Database.productMaxPrice, Integer.parseInt(productPriceTo_value.getText().toString()));
                			   if(!productPriceFrom_value.getText().toString().equals(""))

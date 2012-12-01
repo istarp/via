@@ -68,7 +68,7 @@ public class OfferListAdapter extends ArrayAdapter<Item> implements OnClickListe
 		
 		Item offer = this.offers.get(position);
         holder.shopName.setText(offer.getPremiseName());
-		holder.price.setText(offer.getVatPrice().substring(0, offer.getVatPrice().length() - 3));		
+		holder.price.setText(preparePrice(offer.getVatPrice()));		
 		holder.locality.setVisibility(View.GONE);
 		holder.status.setTextColor(offer.getMinStockAvailability().equals("immediately") ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
 		holder.status.setText(R.string.availability_default);
@@ -110,5 +110,13 @@ public class OfferListAdapter extends ArrayAdapter<Item> implements OnClickListe
 		Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(offers.get(o.position).getURL()));
 		context.startActivity(browserIntent);			
 	}
+	
+    private String preparePrice(String price){
+    	String tmp = price.substring(0, price.length() - 3);
+    	if (tmp.length() > 3){
+    		tmp = tmp.substring(0, tmp.length() - 3) + " " + tmp.substring(tmp.length() - 3, tmp.length());
+    	}
+    	return tmp + " ";
+    }	
         
 }
