@@ -12,5 +12,8 @@ public class WordResponse {
         return sb.toString();
     }
     
+    public Word[] getWords() {
+    	return words;
+    }
     
 }

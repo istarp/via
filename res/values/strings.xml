@@ -66,6 +66,8 @@
     <string name="product_price_from">Od:</string>
     <string name="product_price_to">Do:</string>
     
+    <string name="delete_history">Smazat historii hledání</string>
+    
     <string name="positive_button">OK</string>
     <string name="negative_button">Cancel</string>
     <string name="filter_set">Nastavit filtry</string>
