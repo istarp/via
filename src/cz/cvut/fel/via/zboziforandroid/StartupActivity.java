@@ -1,22 +1,8 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import java.util.regex.Pattern;
-
 import cz.cvut.fel.via.zboziforandroid.client.Utils;
-import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
-import cz.cvut.fel.via.zboziforandroid.client.ZboziForAndroidClient;
-import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
-import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
-import cz.cvut.fel.via.zboziforandroid.client.words.Word;
-import cz.cvut.fel.via.zboziforandroid.client.words.WordResponse;
-
-import cz.cvut.fel.via.zboziforandroid.model.Database;
-
 import cz.cvut.fel.via.zboziforandroid.model.Const;
-
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +12,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +25,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,12 +41,8 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		setContentView(R.layout.activity_startup);
 
 		new QueryDatabase(getApplicationContext());	
-
-		// XXXXXXX
 		QueryDatabase.refreshQueries();
 		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
-		// XXXXXXX
-
 		this.setPreferences();
 
 		final Button searchButton = (Button) findViewById(R.id.searchButton);
@@ -76,15 +55,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
-					if (searchedString.getText().length() > 0) {
-						if (isOnline()) {
-							doSearch(searchedString.getText().toString());
-						} else {
-							Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
-						}
-					} else {
-						Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
-					}
+						checkSearch();
 					return true;
 				}
 				return false;
@@ -95,15 +66,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (searchedString.getText().length() > 0) {
-					if (isOnline()) {
-						doSearch(searchedString.getText().toString());
-					} else {
-						Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
-					}
-				} else {
-					Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
-				}
+				checkSearch();
 			}
 		});
 
@@ -164,7 +127,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 		this.mMenu = menu;
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.basic_menu, menu);
+		inflater.inflate(R.menu.menu_start, menu);
 		SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		mSearchView = (SearchView) searchItem.getActionView();
@@ -177,6 +140,18 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 		return true;
 	}
+	
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_delete_history:
+				QueryDatabase.refreshQueries();
+				Utils.deleteWordsHistory(Utils.getEmail(getApplicationContext()));				
+				return (true);
+		}
+        return super.onOptionsItemSelected(item);
+    }
+    	
 
 	@Override
 	public boolean onQueryTextChange(String arg0) {
@@ -225,7 +200,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		return false;
 	}
 
-	public void setPreferences() {
+	private void setPreferences() {
 		SharedPreferences settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = settings.edit();
 		prefEditor.putInt(Const.productDirection, 0);
@@ -237,6 +212,18 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		prefEditor.putBoolean(Const.itemAtStoreOnly, false);
 		prefEditor.putBoolean(Const.itemListSorted, true);
 		prefEditor.commit();
+	}
+	
+	private void checkSearch(){
+		if (searchedString.getText().length() > 0) {
+			if (isOnline()) {
+				doSearch(searchedString.getText().toString());
+			} else {
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
+		}
 	}
 
 }

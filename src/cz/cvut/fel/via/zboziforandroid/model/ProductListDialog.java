@@ -1,11 +1,6 @@
 package cz.cvut.fel.via.zboziforandroid.model;
 
-import java.util.regex.Pattern;
-
 import cz.cvut.fel.via.zboziforandroid.R;
-import cz.cvut.fel.via.zboziforandroid.client.Utils;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,13 +8,9 @@ import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -174,16 +165,6 @@ public class ProductListDialog extends DialogFragment {
 			else
 				productPriceTo_value.setText(Integer.toString(settings.getInt(Const.productMaxPrice, 1000)));
 		}
-
-		Button mButtonDeleteHistory = (Button) layout.findViewById(R.id.deleteHistoryButton);
-
-		mButtonDeleteHistory.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				Utils.deleteWordsHistory(Utils.getEmail(layout.getContext()));
-				return false;
-			}
-		});
 
 	}
 

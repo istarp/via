@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="200pt"
+    android:layout_height="100pt"
     android:orientation="vertical" >
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -155,20 +155,5 @@
     
     </LinearLayout>   
     
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:orientation="horizontal" 
-    android:layout_weight="1"
-    android:id="@+id/deleteSearchHistory_container">
-      
-      <Button
-        android:id="@+id/deleteHistoryButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-           android:text="@string/delete_history" 
-   		/>    
-        
-    </LinearLayout>
 
 </LinearLayout>

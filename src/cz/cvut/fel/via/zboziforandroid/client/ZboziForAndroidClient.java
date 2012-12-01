@@ -1,10 +1,7 @@
 package cz.cvut.fel.via.zboziforandroid.client;
 
-import java.io.IOException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -59,7 +56,7 @@ public class ZboziForAndroidClient {
 			}
 		} catch (ClientProtocolException e) {
 			System.out.println(e.toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 
@@ -93,7 +90,7 @@ public class ZboziForAndroidClient {
 
 		} catch (ClientProtocolException e) {
 			System.out.println(e.toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 		return wordResponse;
@@ -120,7 +117,7 @@ public class ZboziForAndroidClient {
 
 		} catch (ClientProtocolException e) {
 			System.out.println(e.toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println(e.toString());
 		}
 	}

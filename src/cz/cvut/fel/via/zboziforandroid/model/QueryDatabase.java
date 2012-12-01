@@ -81,6 +81,7 @@ public class QueryDatabase {
 	
 	public static void refreshQueries(){		
 		queries = new HashSet<String>();
+		QUERIES = toArray();
 		deleteQuerries();
 	}
 	

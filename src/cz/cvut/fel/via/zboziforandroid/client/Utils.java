@@ -3,9 +3,6 @@ package cz.cvut.fel.via.zboziforandroid.client;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
-import android.os.Handler;
-import android.widget.Toast;
-import cz.cvut.fel.via.zboziforandroid.R;
 import cz.cvut.fel.via.zboziforandroid.client.words.SaveWordResponse;
 import cz.cvut.fel.via.zboziforandroid.client.words.Word;
 import cz.cvut.fel.via.zboziforandroid.client.words.WordResponse;
@@ -15,8 +12,6 @@ public class Utils {
 
 	public final static String WORDS_API_URL = "http://46.255.228.229:8080";
 
-	private static Handler handler;
-
 	public static void loadUserSearchedWords(final String email) {
 		if (email != null && email != "") {
 			Runnable runnable = new Runnable() {
@@ -25,7 +20,6 @@ public class Utils {
 					ZboziForAndroidClient c = new ZboziForAndroidClient();
 					WordResponse response = c.getWords(email);
 					if (response != null && response.getWords() != null) {
-
 						for (Word word : response.getWords()) {
 							QueryDatabase.saveQuerry(word.getWord());
 						}
