@@ -15,7 +15,7 @@ import android.widget.ListView;
 public class OfferListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    public static final String RESORT = "resort";
+    public static boolean SORT = true;
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
@@ -40,7 +40,7 @@ public class OfferListFragment extends ListFragment {
         super.onCreate(savedInstanceState);         
         this.mOffers = Database.ITEMS;
         Collections.sort(this.mOffers);
-        if (getArguments().containsKey(RESORT))
+        if (!SORT)
         	Collections.reverse(this.mOffers);
         setListAdapter(new OfferListAdapter(getActivity(), R.layout.offer_row, this.mOffers));        
     }

@@ -2,8 +2,8 @@
 
     <string name="app_name">ZboziForAndroid</string>
     <string name="title_offer_detail">Detail nabídky</string>
-    <string name="title_offer_list">Seznam nabídek</string>
-    <string name="title_product_list">Seznam produktů</string>
+    <string name="title_offer_list">Nabídky</string>
+    <string name="title_product_list">Nalezené výsledky</string>
     <string name="title_product_detail">Detail produktu</string>
     <string name="search_button">Vyhledat</string>    
 	<string name="sort_up">Od nejdražšího</string>
@@ -12,12 +12,13 @@
     <string name="productOverview_image">Náhled obrázku</string>
     <string name="productRow_image">Náhled obrázku</string>
     <string name="not_online">Pro tuto akci je nutné připojení k internetu.</string>
+    <string name="no_results">Nebyly nalezeny žádné položky.</string>
         
     <string name="availability_immediately">Zboží je skladem</string>  
     <string name="availability_in_week">Do týdne</string>  
     <string name="availability_all">Více než týden</string>  
     <string name="availability_default">Neznámá</string>  
-    <string name="no_input">Nejprve vložte hledaný řetězec</string>
+    <string name="no_input">Nejprve vložte hledaný řetězec.</string>
     <string name="connection_problem">Omlouváme se, ale při komunikaci se serverem došlo k chybě. Zkontrolujte připojení k internetu a opakujte akci později.</string>
            
     <string name="search_label">Vyhledávání</string>   

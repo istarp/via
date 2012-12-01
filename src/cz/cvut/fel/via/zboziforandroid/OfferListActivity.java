@@ -34,7 +34,6 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
     private boolean mTwoPane;
     private SearchView mSearchView; 
     private Menu mMenu; 
-    private boolean sorted = true;
     private Handler handler;
     private int id; 
     private boolean clickAble = true;
@@ -131,20 +130,23 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	        	OfferListDialog dialog = new OfferListDialog();
 	            dialog.show(getFragmentManager(), "OfferListDialog");         	        		
 	    		return true;
-			case R.id.action_sort:			
-	        	OfferListFragment offerListFragment = new OfferListFragment();
-	        	Bundle b = getIntent().getExtras();
-				if(this.sorted){
+			case R.id.action_sort:				        		        
+				if(OfferListFragment.SORT){
 					item.setTitle(getResources().getString(R.string.sort_down));
-					b.putString(OfferListFragment.RESORT, "");
-					this.sorted = false;
+					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
+					OfferListFragment.SORT = false;
 				}else{
-					item.setTitle(getResources().getString(R.string.sort_up));					
-					b.remove(OfferListFragment.RESORT);
-					this.sorted = true;
-				}	        	
-	            offerListFragment.setArguments(b);
-	            getFragmentManager().beginTransaction().add(R.id.offer_list_container, offerListFragment).commit();;
+					item.setTitle(getResources().getString(R.string.sort_up));
+					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
+					OfferListFragment.SORT = true;
+				}
+				
+				android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+        		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
+        		OfferListFragment offerListFragment = new OfferListFragment(); ;
+        		offerListFragment.setArguments(getIntent().getExtras());                                        		
+            	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
+        		ft.commit();
 				return (true);
 		}
         return super.onOptionsItemSelected(item);
@@ -302,10 +304,12 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    public void run() {
 	                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
 	                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
-	                		OfferListFragment offerListFragment = new OfferListFragment();                    	
+	                		OfferListFragment offerListFragment = new OfferListFragment(); ;
 	                		offerListFragment.setArguments(getIntent().getExtras());                                        		
 	                    	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
 	                		ft.commit();
+	                		if(Database.ITEMS.isEmpty())
+	                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
 	                    }
 	                });
 		      	}else{

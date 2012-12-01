@@ -189,6 +189,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	                    	productListFragment.setArguments(new Bundle());
 	                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
 	                		ft.commit();
+	                		if(Database.PRODUCTS.isEmpty())
+	                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
 	                    }
 	                });
 		      	}else{
