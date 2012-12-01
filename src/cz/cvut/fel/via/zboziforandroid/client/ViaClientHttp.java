@@ -144,8 +144,8 @@ public class ViaClientHttp {
                 ub.appendQueryParameter("maxStockAvailability", Integer.toString(maxStockAvailabality));
             }
             
-            //tohle proste nevim, co dela
-//            ub.addParameter("atStoreOnly", Boolean.valueOf(atStoreOnly).toString());
+            if(atStoreOnly)
+            	ub.appendQueryParameter("atStoreOnly", Boolean.valueOf(atStoreOnly).toString());
             
             
             //create url

@@ -3,10 +3,12 @@ package cz.cvut.fel.via.zboziforandroid;
 import java.util.Collections;
 import java.util.List;
 import cz.cvut.fel.via.zboziforandroid.client.items.Item;
+import cz.cvut.fel.via.zboziforandroid.model.Const;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -15,7 +17,6 @@ import android.widget.ListView;
 public class OfferListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    public static final String RESORT = "resort";
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
@@ -40,7 +41,8 @@ public class OfferListFragment extends ListFragment {
         super.onCreate(savedInstanceState);         
         this.mOffers = Database.ITEMS;
         Collections.sort(this.mOffers);
-        if (getArguments().containsKey(RESORT))
+        SharedPreferences settings = getActivity().getSharedPreferences(Const.settingsPreferences, 0);
+        if (!settings.getBoolean(Const.itemListSorted, true))
         	Collections.reverse(this.mOffers);
         setListAdapter(new OfferListAdapter(getActivity(), R.layout.offer_row, this.mOffers));        
     }
