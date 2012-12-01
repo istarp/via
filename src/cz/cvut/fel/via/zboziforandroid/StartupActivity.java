@@ -216,6 +216,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
     	prefEditor.putInt(Database.productMinPrice, 0);
     	prefEditor.putInt(Database.itemLimit, 10);
     	prefEditor.putBoolean(Database.itemAtStoreOnly, false);
+    	prefEditor.putBoolean(Database.itemListSorted, true);
     	prefEditor.commit(); 
     }
 	

@@ -16,7 +16,8 @@ public class Database {
 	public static String productMinPrice = "product_min_price";
 	public static String productMaxPrice = "product_max_price";	
 	public static String itemLimit = "item_limit";
-	public static String itemAtStoreOnly = "item_at_store_only";	
+	public static String itemAtStoreOnly = "item_at_store_only";
+	public static String itemListSorted = "item_list_sorted";
 	
 	public static List<Products> PRODUCTS = new ArrayList<Products>();
 	public static List<Item> ITEMS = new ArrayList<Item>();

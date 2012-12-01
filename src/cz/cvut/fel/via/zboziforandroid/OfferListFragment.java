@@ -7,6 +7,7 @@ import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
 import android.app.ListFragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 //import android.support.v4.app.ListFragment;
 import android.view.View;
@@ -15,7 +16,6 @@ import android.widget.ListView;
 public class OfferListFragment extends ListFragment {
 
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
-    public static boolean SORT = true;
 
     private Callbacks mCallbacks = sDummyCallbacks;
     private int mActivatedPosition = ListView.INVALID_POSITION;
@@ -40,7 +40,8 @@ public class OfferListFragment extends ListFragment {
         super.onCreate(savedInstanceState);         
         this.mOffers = Database.ITEMS;
         Collections.sort(this.mOffers);
-        if (!SORT)
+        SharedPreferences settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0);
+        if (!settings.getBoolean(Database.itemListSorted, true))
         	Collections.reverse(this.mOffers);
         setListAdapter(new OfferListAdapter(getActivity(), R.layout.offer_row, this.mOffers));        
     }

@@ -45,9 +45,17 @@ public class ProductDetailFragment extends Fragment {
     		else
     			((ImageView) rootView.findViewById(R.id.prodcut_detail_image)).setImageDrawable(getResources().getDrawable(R.drawable.no_image));    	
     	((TextView) rootView.findViewById(R.id.prodcut_detail_name)).setText(mProduct.getProductName());
-    	((TextView) rootView.findViewById(R.id.prodcut_detail_price_from)).setText(" " + mProduct.getMinPrice().substring(0, mProduct.getMinPrice().length() - 2) + " ");
-    	((TextView) rootView.findViewById(R.id.prodcut_detail_price_to)).setText(" " + mProduct.getMaxPrice().substring(0, mProduct.getMaxPrice().length() - 2) + " ");
+    	((TextView) rootView.findViewById(R.id.prodcut_detail_price_from)).setText(preparePrice(mProduct.getMinPrice()));
+    	((TextView) rootView.findViewById(R.id.prodcut_detail_price_to)).setText(preparePrice(mProduct.getMaxPrice()));
     	((TextView) rootView.findViewById(R.id.prodcut_detail_description)).setText(mProduct.getDescription());
     	((TextView) rootView.findViewById(R.id.prodcut_detail_description)).setMovementMethod(new ScrollingMovementMethod());
     }
+    
+    private String preparePrice(String price){
+    	String tmp = price.substring(0, price.length() - 2);
+    	if (tmp.length() > 3){
+    		tmp = tmp.substring(0, tmp.length() - 3) + " " + tmp.substring(tmp.length() - 3, tmp.length());
+    	}
+    	return " " + tmp + " ";
+    }    
 }

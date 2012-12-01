@@ -36,8 +36,10 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
     private Menu mMenu; 
     private Handler handler;
     private int id; 
-    private boolean clickAble = true;
+    private boolean productReady = true;
+    private boolean listReady = true;
     private Context context;
+    private SharedPreferences settings;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,26 +51,28 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         if (savedInstanceState == null) {
         	ProgressFragment progressFragment = new ProgressFragment();
         	progressFragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();                         
-        
-	        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);
-	        this.handler = new Handler();        
-	        this.clickAble = false;
-	        this.context = getApplicationContext();
-	        
-	        this.setComponents();
-	        this.loadProduct();
-	        this.loadItems();        
-	                
-	        if (findViewById(R.id.offer_detail_container) != null) {        	
-	            mTwoPane = true;
-	            if (savedInstanceState == null){
-		        	BlankFragment blankFragment = new BlankFragment();
-		        	blankFragment.setArguments(new Bundle());
-		            getFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
-	            }
-	        }   
+            getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();            
         }
+        
+        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);
+        this.handler = new Handler();        
+        this.listReady = false;
+        this.productReady = false;
+        this.context = getApplicationContext();
+        this.settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);
+        
+        this.setComponents();
+        this.loadProduct();
+        this.loadItems();        
+                
+        if (findViewById(R.id.offer_detail_container) != null) {        	
+            mTwoPane = true;
+            if (savedInstanceState == null){
+	        	BlankFragment blankFragment = new BlankFragment();
+	        	blankFragment.setArguments(new Bundle());
+	            getFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
+            }
+        }           
         
         handleIntent(getIntent());
     }
@@ -111,16 +115,18 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	        	OfferListDialog dialog = new OfferListDialog();
 	            dialog.show(getFragmentManager(), "OfferListDialog");         	        		
 	    		return true;
-			case R.id.action_sort:				        		        
-				if(OfferListFragment.SORT){
+			case R.id.action_sort:
+				SharedPreferences.Editor prefEditor = settings.edit();
+				if(settings.getBoolean(Database.itemListSorted, true)){
 					item.setTitle(getResources().getString(R.string.sort_down));
 					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
-					OfferListFragment.SORT = false;
+					prefEditor.putBoolean(Database.itemListSorted, false);			    	
 				}else{
 					item.setTitle(getResources().getString(R.string.sort_up));
 					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
-					OfferListFragment.SORT = true;
+					prefEditor.putBoolean(Database.itemListSorted, true);			    	
 				}	
+				prefEditor.commit();
 				this.refreshList();
 				return (true);
 		}
@@ -144,6 +150,15 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setIconifiedByDefault(false);
+        
+        MenuItem sortItem = menu.findItem(R.id.action_sort);
+        if(!settings.getBoolean(Database.itemListSorted, true)){
+        	sortItem.setTitle(getResources().getString(R.string.sort_down));
+        	sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
+		}else{
+			sortItem.setTitle(getResources().getString(R.string.sort_up));
+			sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
+		}
         
         return true;
     }
@@ -239,7 +254,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		      	ProductResponse response = c.getProduct(id);            	
 		      	if (response != null && response.getProductAttributes() != null){
 			      	Database.fillProduct(response.getProductAttributes());
-			      	clickAble = true;		      	
+			      	productReady = true;		      	
 	                handler.post(new Runnable() {
 	                    @Override
 	                    public void run() {
@@ -266,8 +281,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-            	ViaClientHttp c = new ViaClientHttp();
-            	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);
+            	ViaClientHttp c = new ViaClientHttp();            	
 		      	ItemsResponse response = c.getItems(id, 1, 
 		      			settings.getInt(Database.itemLimit, 10),
 		      			"", false, "", false, -1, false,
@@ -292,6 +306,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    }
 	                });
 		      	}
+		      	listReady = true;
             }
         };
         new Thread(runnable).start();    	
@@ -326,7 +341,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         productOverview.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
-				if(clickAble){
+				if(listReady && productReady){
 					startProductDetail();
 				}
 			}
@@ -341,6 +356,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		offerListFragment.setArguments(getIntent().getExtras());                                        		
     	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
 		ft.commit();
-	}
+	}	
+	
 
 }
