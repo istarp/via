@@ -15,13 +15,15 @@ public class ProductListAdapter extends ArrayAdapter<Products>{
 	
     private int resource;
     private LayoutInflater inflater;    
-    private List<Products> products;        
+    private List<Products> products;
+    private Context context;
 
 	public ProductListAdapter(Context context, int textViewResourceId, List<Products> objects) {
 		super(context, textViewResourceId, objects);
         this.resource = textViewResourceId;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);        
-        this.products = objects;       
+        this.products = objects; 
+        this.context = context;
 	}	
 	
 	private static class ViewHolder {  
@@ -52,21 +54,12 @@ public class ProductListAdapter extends ArrayAdapter<Products>{
 		
 		Products product = this.products.get(position);
         holder.productName.setText(product.getProductName());
-		holder.productImage.setImageBitmap(product.getImg()); 
+        if (product.getImg() == null){
+        	holder.productImage.setImageDrawable(context.getResources().getDrawable(R.drawable.no_image));
+        }else{
+        	holder.productImage.setImageBitmap(product.getImg());
+        }		
           
-        return convertView;
-    	
-    	/*
-        convertView = inflater.inflate(resource, null);          
-        Products product = this.products.get(position);
-        
-        TextView productName = (TextView) convertView.findViewById(R.id.product_row_name);          
-        ImageView productImage = (ImageView) convertView.findViewById(R.id.product_row_image);          
-        
-        productName.setText(product.getProductName());          
-        productImage.setImageBitmap(product.getImg());    	                         
-                             
-        return convertView;
-        */
+        return convertView;    	
     }          
 }

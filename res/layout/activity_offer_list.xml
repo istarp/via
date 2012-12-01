@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@string/productOverview_image"                
                 android:src = "@drawable/list_item_arrow"
-                android:layout_weight="1"
+                android:layout_weight="1"                
             />
             
             </LinearLayout>

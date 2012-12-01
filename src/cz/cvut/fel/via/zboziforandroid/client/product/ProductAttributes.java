@@ -1,10 +1,8 @@
 package cz.cvut.fel.via.zboziforandroid.client.product;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
@@ -197,8 +195,8 @@ public class ProductAttributes {
             conn.connect();
             InputStream is = conn.getInputStream();            
             smallImage = BitmapFactory.decodeStream(is);            
-       } catch (IOException e) {            
-            e.printStackTrace();
+       } catch (Exception e) {            
+            smallImage = null;
        }
 	}
 
@@ -217,13 +215,17 @@ public class ProductAttributes {
         			break;
         		}
         	}
-            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            InputStream is = conn.getInputStream();            
-            smallImage = BitmapFactory.decodeStream(is);            
-       } catch (IOException e) {            
-            e.printStackTrace();
+        	if (!url.equals("")){
+	            HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
+	            conn.setDoInput(true);
+	            conn.connect();
+	            InputStream is = conn.getInputStream();            
+	            bigImage = BitmapFactory.decodeStream(is);
+        	}else{
+        		bigImage = null;
+        	}
+       } catch (Exception e) {            
+            bigImage = null;
        }
 	}
 }

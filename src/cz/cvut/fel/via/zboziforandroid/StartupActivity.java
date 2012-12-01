@@ -1,9 +1,11 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -39,8 +41,20 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         
         new QueryDatabase(getApplicationContext());
         
+        //XXXXXXX
         QueryDatabase.refreshQueries(); 
-    	QueryDatabase.saveQuerry("sracka2");    	    	    	
+    	QueryDatabase.saveQuerry("sracka2");
+    	//XXXXXX
+    	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);  
+    	SharedPreferences.Editor prefEditor = settings.edit();  
+    	prefEditor.putInt(Database.productDirection, 0);
+    	prefEditor.putInt(Database.productCriterion, 0);
+    	prefEditor.putInt(Database.productLimit, 10);
+    	prefEditor.putInt(Database.productMaxPrice, -1);
+    	prefEditor.putInt(Database.productMinPrice, 0);
+    	prefEditor.putInt(Database.itemLimit, 10);
+    	prefEditor.putBoolean(Database.itemAtStoreOnly, false);
+    	prefEditor.commit();        
         
         final Button searchButton = (Button) findViewById(R.id.searchButton);
         searchedString = (AutoCompleteTextView) findViewById(R.id.searchString);        
@@ -57,7 +71,9 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 	    					doSearch(searchedString.getText().toString());
 	    				}else{
 	    					Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
-	    				}
+	    				}	    				
+                	}else{
+                		Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
                 	}
                     return true;
                 }
@@ -75,6 +91,8 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 					}else{
 						Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
 					}
+				}else{
+					Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
 				}
 			}
 		});
@@ -135,7 +153,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
         this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.searchview_in_menu, menu);
+        inflater.inflate(R.menu.basic_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
