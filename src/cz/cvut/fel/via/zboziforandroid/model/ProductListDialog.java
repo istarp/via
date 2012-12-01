@@ -165,7 +165,6 @@ public class ProductListDialog extends DialogFragment {
 			else
 				productPriceTo_value.setText(Integer.toString(settings.getInt(Const.productMaxPrice, 1000)));
 		}
-
 	}
 
 }
