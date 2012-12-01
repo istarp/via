@@ -180,6 +180,7 @@ public class ProductListDialog extends DialogFragment {
 		mButtonDeleteHistory.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
+				QueryDatabase.refreshQueries();
 				Utils.deleteWordsHistory(Utils.getEmail(layout.getContext()));
 				return false;
 			}
