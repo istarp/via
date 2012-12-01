@@ -171,13 +171,13 @@ public class ProductListActivity extends FragmentActivity implements ProductList
             @Override
             public void run() {
             	ViaClientHttp c = new ViaClientHttp();
-            	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);  
+            	SharedPreferences settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);  
 		      	ProductsResponse response = c.getProducts(searchedString, 1, 
-		      			settings.getInt(Database.productLimit, 10), 
-		      			Const.PRODUCT_CRITERIONS[settings.getInt(Database.productCriterion, 0)], 
-		      			Const.PRODUCT_DIRECTION[settings.getInt(Database.productDirection, 0)], 
-		      			settings.getInt(Database.productMinPrice, 0), 
-		      			settings.getInt(Database.productMaxPrice, -1));            	
+		      			settings.getInt(Const.productLimit, 10), 
+		      			Const.PRODUCT_CRITERIONS[settings.getInt(Const.productCriterion, 0)], 
+		      			Const.PRODUCT_DIRECTION[settings.getInt(Const.productDirection, 0)], 
+		      			settings.getInt(Const.productMinPrice, 0), 
+		      			settings.getInt(Const.productMaxPrice, -1));            	
 		      	if (response != null && response.getProducts() != null){
 			      	Database.fillProducts(response.getProducts());
 	                handler.post(new Runnable() {

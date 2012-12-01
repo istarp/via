@@ -3,6 +3,7 @@ package cz.cvut.fel.via.zboziforandroid;
 import java.util.Collections;
 import java.util.List;
 import cz.cvut.fel.via.zboziforandroid.client.items.Item;
+import cz.cvut.fel.via.zboziforandroid.model.Const;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListAdapter;
 import android.app.Activity;
@@ -40,8 +41,8 @@ public class OfferListFragment extends ListFragment {
         super.onCreate(savedInstanceState);         
         this.mOffers = Database.ITEMS;
         Collections.sort(this.mOffers);
-        SharedPreferences settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0);
-        if (!settings.getBoolean(Database.itemListSorted, true))
+        SharedPreferences settings = getActivity().getSharedPreferences(Const.settingsPreferences, 0);
+        if (!settings.getBoolean(Const.itemListSorted, true))
         	Collections.reverse(this.mOffers);
         setListAdapter(new OfferListAdapter(getActivity(), R.layout.offer_row, this.mOffers));        
     }

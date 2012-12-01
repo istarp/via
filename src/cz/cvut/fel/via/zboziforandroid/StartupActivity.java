@@ -1,6 +1,6 @@
 package cz.cvut.fel.via.zboziforandroid;
 
-import cz.cvut.fel.via.zboziforandroid.model.Database;
+import cz.cvut.fel.via.zboziforandroid.model.Const;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
@@ -207,16 +207,16 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
     }
     
     public void setPreferences(){
-    	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);  
+    	SharedPreferences settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);  
     	SharedPreferences.Editor prefEditor = settings.edit();  
-    	prefEditor.putInt(Database.productDirection, 0);
-    	prefEditor.putInt(Database.productCriterion, 0);
-    	prefEditor.putInt(Database.productLimit, 10);
-    	prefEditor.putInt(Database.productMaxPrice, -1);
-    	prefEditor.putInt(Database.productMinPrice, 0);
-    	prefEditor.putInt(Database.itemLimit, 10);
-    	prefEditor.putBoolean(Database.itemAtStoreOnly, false);
-    	prefEditor.putBoolean(Database.itemListSorted, true);
+    	prefEditor.putInt(Const.productDirection, 0);
+    	prefEditor.putInt(Const.productCriterion, 0);
+    	prefEditor.putInt(Const.productLimit, 10);
+    	prefEditor.putInt(Const.productMaxPrice, -1);
+    	prefEditor.putInt(Const.productMinPrice, 0);
+    	prefEditor.putInt(Const.itemLimit, 10);
+    	prefEditor.putBoolean(Const.itemAtStoreOnly, false);
+    	prefEditor.putBoolean(Const.itemListSorted, true);
     	prefEditor.commit(); 
     }
 	

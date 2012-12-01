@@ -53,7 +53,7 @@ public class ProductListDialog extends DialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         
         View layout = inflater.inflate(R.layout.dialog_product_list, null);         
-        settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0); 
+        settings = getActivity().getSharedPreferences(Const.settingsPreferences, 0); 
         setComponents(layout);
         
         builder.setView(layout)
@@ -62,17 +62,17 @@ public class ProductListDialog extends DialogFragment{
                    public void onClick(DialogInterface dialog, int id) { 
                 	                   	   
                 	   SharedPreferences.Editor prefEditor = settings.edit();  
-                   	   prefEditor.putInt(Database.productDirection, productDirection.getSelectedItemPosition());
-                   	   prefEditor.putInt(Database.productCriterion, productCriterion.getSelectedItemPosition());
-                   	   prefEditor.putInt(Database.productLimit, Integer.parseInt(productLimit.getSelectedItem().toString()));
+                   	   prefEditor.putInt(Const.productDirection, productDirection.getSelectedItemPosition());
+                   	   prefEditor.putInt(Const.productCriterion, productCriterion.getSelectedItemPosition());
+                   	   prefEditor.putInt(Const.productLimit, Integer.parseInt(productLimit.getSelectedItem().toString()));
                    	   if(productPrice.isChecked()){
-                   		   prefEditor.putInt(Database.productMaxPrice, -1);
-                   		   prefEditor.putInt(Database.productMinPrice, 0);
+                   		   prefEditor.putInt(Const.productMaxPrice, -1);
+                   		   prefEditor.putInt(Const.productMinPrice, 0);
                    	   }else{
                    		   if(!productPriceTo_value.getText().toString().equals(""))
-                   			   prefEditor.putInt(Database.productMaxPrice, Integer.parseInt(productPriceTo_value.getText().toString()));
+                   			   prefEditor.putInt(Const.productMaxPrice, Integer.parseInt(productPriceTo_value.getText().toString()));
                			   if(!productPriceFrom_value.getText().toString().equals(""))
-               				   prefEditor.putInt(Database.productMinPrice, Integer.parseInt(productPriceFrom_value.getText().toString()));
+               				   prefEditor.putInt(Const.productMinPrice, Integer.parseInt(productPriceFrom_value.getText().toString()));
                    	   }
                    	   prefEditor.commit();                		
             		   mListener.onDialogPositiveClick(ProductListDialog.this);                	                  	                         
@@ -93,7 +93,7 @@ public class ProductListDialog extends DialogFragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
         productLimit.setAdapter(adapter);
         
-        int position = adapter.getPosition(Integer.toString(settings.getInt(Database.productLimit, 10)));
+        int position = adapter.getPosition(Integer.toString(settings.getInt(Const.productLimit, 10)));
         productLimit.setSelection(position);
         
         productCriterion = (Spinner) layout.findViewById(R.id.productCriterion);
@@ -101,7 +101,7 @@ public class ProductListDialog extends DialogFragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
         productCriterion.setAdapter(adapter);
                 
-        switch (settings.getInt(Database.productCriterion, 0)){        
+        switch (settings.getInt(Const.productCriterion, 0)){        
 	        case 1: position = adapter.getPosition(getResources().getString(R.string.product_criterion_1)); break;
 	        case 2: position = adapter.getPosition(getResources().getString(R.string.product_criterion_2)); break;
 	        default: position = adapter.getPosition(getResources().getString(R.string.product_criterion_0)); break;
@@ -113,7 +113,7 @@ public class ProductListDialog extends DialogFragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
         productDirection.setAdapter(adapter); 
         
-        switch (settings.getInt(Database.productDirection, 0)){        
+        switch (settings.getInt(Const.productDirection, 0)){        
 	        case 1: position = adapter.getPosition(getResources().getString(R.string.product_direction_1)); break;
 	        default: position = adapter.getPosition(getResources().getString(R.string.product_direction_0)); break;
         }        	        		       
@@ -140,19 +140,19 @@ public class ProductListDialog extends DialogFragment{
 			}
 		});
         
-        if (settings.getInt(Database.productMaxPrice, -1) == -1 && settings.getInt(Database.productMinPrice, 0) == 0){
+        if (settings.getInt(Const.productMaxPrice, -1) == -1 && settings.getInt(Const.productMinPrice, 0) == 0){
         	productPrice.setChecked(true);
         	productPriceFrom.setVisibility(View.INVISIBLE);
 	        productPriceTo.setVisibility(View.INVISIBLE);
         }else{
         	productPrice.setChecked(false);
         	productPriceFrom.setVisibility(View.VISIBLE);
-        	productPriceFrom_value.setText(Integer.toString(settings.getInt(Database.productMinPrice, 0)));        	
+        	productPriceFrom_value.setText(Integer.toString(settings.getInt(Const.productMinPrice, 0)));        	
 	        productPriceTo.setVisibility(View.VISIBLE);
-	        if(settings.getInt(Database.productMaxPrice, -1) == -1)
+	        if(settings.getInt(Const.productMaxPrice, -1) == -1)
 	        	productPriceTo_value.setText("");
 	        else
-	        	productPriceTo_value.setText(Integer.toString(settings.getInt(Database.productMaxPrice, 1000)));
+	        	productPriceTo_value.setText(Integer.toString(settings.getInt(Const.productMaxPrice, 1000)));
         }    	
     }
 	

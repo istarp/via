@@ -4,6 +4,7 @@ import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
 import cz.cvut.fel.via.zboziforandroid.client.items.ItemsResponse;
 import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
 import cz.cvut.fel.via.zboziforandroid.client.products.Products;
+import cz.cvut.fel.via.zboziforandroid.model.Const;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
 import cz.cvut.fel.via.zboziforandroid.model.OfferListDialog;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
@@ -59,7 +60,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         this.listReady = false;
         this.productReady = false;
         this.context = getApplicationContext();
-        this.settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);
+        this.settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);
         
         this.setComponents();
         this.loadProduct();
@@ -117,14 +118,14 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	    		return true;
 			case R.id.action_sort:
 				SharedPreferences.Editor prefEditor = settings.edit();
-				if(settings.getBoolean(Database.itemListSorted, true)){
+				if(settings.getBoolean(Const.itemListSorted, true)){
 					item.setTitle(getResources().getString(R.string.sort_down));
 					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
-					prefEditor.putBoolean(Database.itemListSorted, false);			    	
+					prefEditor.putBoolean(Const.itemListSorted, false);			    	
 				}else{
 					item.setTitle(getResources().getString(R.string.sort_up));
 					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
-					prefEditor.putBoolean(Database.itemListSorted, true);			    	
+					prefEditor.putBoolean(Const.itemListSorted, true);			    	
 				}	
 				prefEditor.commit();
 				this.refreshList();
@@ -152,7 +153,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         mSearchView.setIconifiedByDefault(false);
         
         MenuItem sortItem = menu.findItem(R.id.action_sort);
-        if(!settings.getBoolean(Database.itemListSorted, true)){
+        if(!settings.getBoolean(Const.itemListSorted, true)){
         	sortItem.setTitle(getResources().getString(R.string.sort_down));
         	sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
 		}else{
@@ -283,9 +284,9 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
             public void run() {
             	ViaClientHttp c = new ViaClientHttp();            	
 		      	ItemsResponse response = c.getItems(id, 1, 
-		      			settings.getInt(Database.itemLimit, 10),
+		      			settings.getInt(Const.itemLimit, 10),
 		      			"", false, "", false, -1, false,
-		      			settings.getBoolean(Database.itemAtStoreOnly, false));
+		      			settings.getBoolean(Const.itemAtStoreOnly, false));
 		      	if (response != null && response.getItems() != null){
 			      	Database.fillItems(response.getItems());
 	                handler.post(new Runnable() {

@@ -43,7 +43,7 @@ public class OfferListDialog extends DialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         
         View layout = inflater.inflate(R.layout.dialog_offer_list, null);         
-        settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0);         
+        settings = getActivity().getSharedPreferences(Const.settingsPreferences, 0);         
         setComponents(layout);
                 
         builder.setView(layout)
@@ -52,8 +52,8 @@ public class OfferListDialog extends DialogFragment{
                    public void onClick(DialogInterface dialog, int id) { 
                 	                   	   
                 	   SharedPreferences.Editor prefEditor = settings.edit();  
-                   	   prefEditor.putInt(Database.itemLimit, Integer.parseInt(offerLimit.getSelectedItem().toString()));
-                   	   prefEditor.putBoolean(Database.itemAtStoreOnly, offerAtStore.isChecked());
+                   	   prefEditor.putInt(Const.itemLimit, Integer.parseInt(offerLimit.getSelectedItem().toString()));
+                   	   prefEditor.putBoolean(Const.itemAtStoreOnly, offerAtStore.isChecked());
                    	   prefEditor.commit();                		
             		   mListener.onDialogPositiveClick(OfferListDialog.this);                	                  	                         
                    }
@@ -73,12 +73,12 @@ public class OfferListDialog extends DialogFragment{
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
         offerLimit.setAdapter(adapter);
         
-        int position = adapter.getPosition(Integer.toString(settings.getInt(Database.itemLimit, 10)));
+        int position = adapter.getPosition(Integer.toString(settings.getInt(Const.itemLimit, 10)));
         offerLimit.setSelection(position);        
         
         offerAtStore = (CheckBox) layout.findViewById(R.id.offerAtStore);        
         
-        if (settings.getBoolean(Database.itemAtStoreOnly, false)){
+        if (settings.getBoolean(Const.itemAtStoreOnly, false)){
         	offerAtStore.setChecked(true);
         }else{
         	offerAtStore.setChecked(false);
