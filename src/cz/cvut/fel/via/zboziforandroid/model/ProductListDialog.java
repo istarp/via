@@ -52,10 +52,42 @@ public class ProductListDialog extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());        
         LayoutInflater inflater = getActivity().getLayoutInflater();
         
-        View layout = inflater.inflate(R.layout.dialog_product_list, null); 
-        
+        View layout = inflater.inflate(R.layout.dialog_product_list, null);         
         settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0); 
+        setComponents(layout);
         
+        builder.setView(layout)
+        	   .setTitle(R.string.filter_set)
+               .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) { 
+                	                   	   
+                	   SharedPreferences.Editor prefEditor = settings.edit();  
+                   	   prefEditor.putInt(Database.productDirection, productDirection.getSelectedItemPosition());
+                   	   prefEditor.putInt(Database.productCriterion, productCriterion.getSelectedItemPosition());
+                   	   prefEditor.putInt(Database.productLimit, Integer.parseInt(productLimit.getSelectedItem().toString()));
+                   	   if(productPrice.isChecked()){
+                   		   prefEditor.putInt(Database.productMaxPrice, -1);
+                   		   prefEditor.putInt(Database.productMinPrice, 0);
+                   	   }else{
+                   		   if(!productPriceTo_value.getText().toString().equals(""))
+                   			   prefEditor.putInt(Database.productMaxPrice, Integer.parseInt(productPriceTo_value.getText().toString()));
+               			   if(!productPriceFrom_value.getText().toString().equals(""))
+               				   prefEditor.putInt(Database.productMinPrice, Integer.parseInt(productPriceFrom_value.getText().toString()));
+                   	   }
+                   	   prefEditor.commit();                		
+            		   mListener.onDialogPositiveClick(ProductListDialog.this);                	                  	                         
+                   }
+               })
+               .setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {                       
+                       mListener.onDialogNegativeClick(ProductListDialog.this);
+                   }
+               });           
+        
+        return builder.create();
+    }
+    
+    private void setComponents(View layout){
         productLimit = (Spinner) layout.findViewById(R.id.productLimit);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.product_limit_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
@@ -121,36 +153,7 @@ public class ProductListDialog extends DialogFragment{
 	        	productPriceTo_value.setText("");
 	        else
 	        	productPriceTo_value.setText(Integer.toString(settings.getInt(Database.productMaxPrice, 1000)));
-        }        
-        builder.setView(layout)
-        	   .setTitle(R.string.filter_set)
-               .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) { 
-                	                   	   
-                	   SharedPreferences.Editor prefEditor = settings.edit();  
-                   	   prefEditor.putInt(Database.productDirection, productDirection.getSelectedItemPosition());
-                   	   prefEditor.putInt(Database.productCriterion, productCriterion.getSelectedItemPosition());
-                   	   prefEditor.putInt(Database.productLimit, Integer.parseInt(productLimit.getSelectedItem().toString()));
-                   	   if(productPrice.isChecked()){
-                   		   prefEditor.putInt(Database.productMaxPrice, -1);
-                   		   prefEditor.putInt(Database.productMinPrice, 0);
-                   	   }else{
-                   		   if(!productPriceTo_value.getText().toString().equals(""))
-                   			   prefEditor.putInt(Database.productMaxPrice, Integer.parseInt(productPriceTo_value.getText().toString()));
-               			   if(!productPriceFrom_value.getText().toString().equals(""))
-               				   prefEditor.putInt(Database.productMinPrice, Integer.parseInt(productPriceFrom_value.getText().toString()));
-                   	   }
-                   	   prefEditor.commit();                		
-            		   mListener.onDialogPositiveClick(ProductListDialog.this);                	                  	                         
-                   }
-               })
-               .setNegativeButton(R.string.negative_button, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {                       
-                       mListener.onDialogNegativeClick(ProductListDialog.this);
-                   }
-               });           
-        
-        return builder.create();
+        }    	
     }
 	
 }

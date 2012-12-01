@@ -49,45 +49,26 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         if (savedInstanceState == null) {
         	ProgressFragment progressFragment = new ProgressFragment();
         	progressFragment.setArguments(getIntent().getExtras());
-            getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();
-        }                
+            getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();                         
         
-        TextView productName = (TextView) findViewById(R.id.productOverview_name);
-        ImageView productImage = (ImageView) findViewById(R.id.productOverview_image);
-        Products products = Database.PRODUCTS.get(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
-        productName.setText(products.getProductName());
-        if (products.getImg() == null){
-        	productImage.setImageDrawable(getResources().getDrawable(R.drawable.no_image));
-        }else{
-        	productImage.setImageBitmap(products.getImg());
-        }        
-        LinearLayout productOverview = (LinearLayout) findViewById(R.id.productOverview);
-        
-        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);
-        this.handler = new Handler();
-        this.loadProduct();
-        this.loadItems();
-        this.clickAble = false;
-        this.context = getApplicationContext();
-        ((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.GONE);
-        
-        productOverview.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				if(clickAble){
-					startProductDetail();
-				}
-			}
-		}); 
-                
-        if (findViewById(R.id.offer_detail_container) != null) {        	
-            mTwoPane = true;
-            if (savedInstanceState == null){
-	        	BlankFragment blankFragment = new BlankFragment();
-	        	blankFragment.setArguments(new Bundle());
-	            getFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
-            }
-        }        
+	        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);
+	        this.handler = new Handler();        
+	        this.clickAble = false;
+	        this.context = getApplicationContext();
+	        
+	        this.setComponents();
+	        this.loadProduct();
+	        this.loadItems();        
+	                
+	        if (findViewById(R.id.offer_detail_container) != null) {        	
+	            mTwoPane = true;
+	            if (savedInstanceState == null){
+		        	BlankFragment blankFragment = new BlankFragment();
+		        	blankFragment.setArguments(new Bundle());
+		            getFragmentManager().beginTransaction().add(R.id.offer_detail_container, blankFragment).commit();
+	            }
+	        }   
+        }
         
         handleIntent(getIntent());
     }
@@ -139,14 +120,8 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 					item.setTitle(getResources().getString(R.string.sort_up));
 					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
 					OfferListFragment.SORT = true;
-				}
-				
-				android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
-        		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
-        		OfferListFragment offerListFragment = new OfferListFragment(); ;
-        		offerListFragment.setArguments(getIntent().getExtras());                                        		
-            	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
-        		ft.commit();
+				}	
+				this.refreshList();
 				return (true);
 		}
         return super.onOptionsItemSelected(item);
@@ -302,12 +277,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                handler.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
-	                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
-	                		OfferListFragment offerListFragment = new OfferListFragment(); ;
-	                		offerListFragment.setArguments(getIntent().getExtras());                                        		
-	                    	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
-	                		ft.commit();
+	                        refreshList();
 	                		if(Database.ITEMS.isEmpty())
 	                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
 	                    }
@@ -340,6 +310,37 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {		
-	}    
+	}
+	
+	private void setComponents(){
+        TextView productName = (TextView) findViewById(R.id.productOverview_name);
+        ImageView productImage = (ImageView) findViewById(R.id.productOverview_image);
+        Products products = Database.PRODUCTS.get(getIntent().getExtras().getInt(ProductListFragment.PRODUCT_LIST_ID));
+        productName.setText(products.getProductName());
+        if (products.getImg() == null){
+        	productImage.setImageDrawable(getResources().getDrawable(R.drawable.no_image));
+        }else{
+        	productImage.setImageBitmap(products.getImg());
+        }        
+        LinearLayout productOverview = (LinearLayout) findViewById(R.id.productOverview);                        
+        productOverview.setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				if(clickAble){
+					startProductDetail();
+				}
+			}
+		});		
+        ((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.GONE);
+	}
+	
+	private void refreshList(){
+		android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);                		
+		OfferListFragment offerListFragment = new OfferListFragment(); ;
+		offerListFragment.setArguments(getIntent().getExtras());                                        		
+    	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
+		ft.commit();
+	}
 
 }

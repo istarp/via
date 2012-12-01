@@ -42,25 +42,10 @@ public class OfferListDialog extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());        
         LayoutInflater inflater = getActivity().getLayoutInflater();
         
-        View layout = inflater.inflate(R.layout.dialog_offer_list, null); 
-        
-        settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0); 
-        
-        offerLimit = (Spinner) layout.findViewById(R.id.offerLimit);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.offer_limit_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
-        offerLimit.setAdapter(adapter);
-        
-        int position = adapter.getPosition(Integer.toString(settings.getInt(Database.itemLimit, 10)));
-        offerLimit.setSelection(position);        
-        
-        offerAtStore = (CheckBox) layout.findViewById(R.id.offerAtStore);        
-        
-        if (settings.getBoolean(Database.itemAtStoreOnly, false)){
-        	offerAtStore.setChecked(true);
-        }else{
-        	offerAtStore.setChecked(false);
-        }        
+        View layout = inflater.inflate(R.layout.dialog_offer_list, null);         
+        settings = getActivity().getSharedPreferences(Database.settingsPreferences, 0);         
+        setComponents(layout);
+                
         builder.setView(layout)
         	   .setTitle(R.string.filter_set)
                .setPositiveButton(R.string.positive_button, new DialogInterface.OnClickListener() {
@@ -80,6 +65,24 @@ public class OfferListDialog extends DialogFragment{
                });           
         
         return builder.create();
-    }    
+    } 
+    
+    public void setComponents(View layout){
+    	offerLimit = (Spinner) layout.findViewById(R.id.offerLimit);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.offer_limit_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
+        offerLimit.setAdapter(adapter);
+        
+        int position = adapter.getPosition(Integer.toString(settings.getInt(Database.itemLimit, 10)));
+        offerLimit.setSelection(position);        
+        
+        offerAtStore = (CheckBox) layout.findViewById(R.id.offerAtStore);        
+        
+        if (settings.getBoolean(Database.itemAtStoreOnly, false)){
+        	offerAtStore.setChecked(true);
+        }else{
+        	offerAtStore.setChecked(false);
+        }
+    }
 
 }

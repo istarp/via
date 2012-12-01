@@ -44,18 +44,10 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         //XXXXXXX
         QueryDatabase.refreshQueries(); 
     	QueryDatabase.saveQuerry("sracka2");
-    	//XXXXXX
-    	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);  
-    	SharedPreferences.Editor prefEditor = settings.edit();  
-    	prefEditor.putInt(Database.productDirection, 0);
-    	prefEditor.putInt(Database.productCriterion, 0);
-    	prefEditor.putInt(Database.productLimit, 10);
-    	prefEditor.putInt(Database.productMaxPrice, -1);
-    	prefEditor.putInt(Database.productMinPrice, 0);
-    	prefEditor.putInt(Database.itemLimit, 10);
-    	prefEditor.putBoolean(Database.itemAtStoreOnly, false);
-    	prefEditor.commit();        
-        
+    	//XXXXXXX
+    	        
+        this.setPreferences();
+    	
         final Button searchButton = (Button) findViewById(R.id.searchButton);
         searchedString = (AutoCompleteTextView) findViewById(R.id.searchString);        
         
@@ -155,8 +147,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.basic_menu, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
+        MenuItem searchItem = menu.findItem(R.id.action_search);                      
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);                        
@@ -213,6 +204,19 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
             return true;
         }
         return false;
+    }
+    
+    public void setPreferences(){
+    	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);  
+    	SharedPreferences.Editor prefEditor = settings.edit();  
+    	prefEditor.putInt(Database.productDirection, 0);
+    	prefEditor.putInt(Database.productCriterion, 0);
+    	prefEditor.putInt(Database.productLimit, 10);
+    	prefEditor.putInt(Database.productMaxPrice, -1);
+    	prefEditor.putInt(Database.productMinPrice, 0);
+    	prefEditor.putInt(Database.itemLimit, 10);
+    	prefEditor.putBoolean(Database.itemAtStoreOnly, false);
+    	prefEditor.commit(); 
     }
 	
 }

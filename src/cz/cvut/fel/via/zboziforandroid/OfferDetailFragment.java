@@ -36,32 +36,7 @@ public class OfferDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_offer_detail, container, false);
         if (mOffer != null){        	        	
-        	((TextView) rootView.findViewById(R.id.offer_detail_shopName)).setText(mOffer.getPremiseName());
-        	((TextView) rootView.findViewById(R.id.offer_detail_price)).setText(preparePrice(mOffer.getVatPrice()));
-        	((TextView) rootView.findViewById(R.id.offer_detail_status)).setTextColor(mOffer.getMinStockAvailability().equals("immediately") ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
-        	((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_default);
-    		if (mOffer.getMinStockAvailability().equals("immediately")){
-    			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_immediately);
-    		}
-    		if (mOffer.getMinStockAvailability().equals("in_week")){
-    			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_in_week);
-    		}
-    		if (mOffer.getMinStockAvailability().equals("all")){
-    			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_all);
-    		}
-    		((TextView) rootView.findViewById(R.id.offer_detail_depots)).setText(mOffer.getDepotsStrings());
-    		((TextView) rootView.findViewById(R.id.offer_detail_stores)).setText(mOffer.getStoresStrings());
-    		((TextView) rootView.findViewById(R.id.offer_detail_depots)).setMovementMethod(new ScrollingMovementMethod());
-    		((TextView) rootView.findViewById(R.id.offer_detail_stores)).setMovementMethod(new ScrollingMovementMethod());
-    		((ImageView) rootView.findViewById(R.id.offer_detail_goToShop)).setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mOffer.getURL()));
-					getActivity().startActivity(browserIntent);					
-				}
-			});
-    		
+        	setComponents(rootView);    		
 	    }else{
 	    	Toast.makeText(getActivity(), getResources().getString(R.string.offer_detail_blank), Toast.LENGTH_LONG).show();
 	    }
@@ -74,5 +49,32 @@ public class OfferDetailFragment extends Fragment {
     		tmp = tmp.substring(0, tmp.length() - 3) + " " + tmp.substring(tmp.length() - 3, tmp.length());
     	}
     	return tmp + " ";
+    }
+    
+    private void setComponents(View rootView){
+    	((TextView) rootView.findViewById(R.id.offer_detail_shopName)).setText(mOffer.getPremiseName());
+    	((TextView) rootView.findViewById(R.id.offer_detail_price)).setText(preparePrice(mOffer.getVatPrice()));
+    	((TextView) rootView.findViewById(R.id.offer_detail_status)).setTextColor(mOffer.getMinStockAvailability().equals("immediately") ? Color.parseColor("#518000") : Color.parseColor("#9E9E9E"));
+    	((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_default);
+		if (mOffer.getMinStockAvailability().equals("immediately")){
+			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_immediately);
+		}
+		if (mOffer.getMinStockAvailability().equals("in_week")){
+			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_in_week);
+		}
+		if (mOffer.getMinStockAvailability().equals("all")){
+			((TextView) rootView.findViewById(R.id.offer_detail_status)).setText(R.string.availability_all);
+		}
+		((TextView) rootView.findViewById(R.id.offer_detail_depots)).setText(mOffer.getDepotsStrings());
+		((TextView) rootView.findViewById(R.id.offer_detail_stores)).setText(mOffer.getStoresStrings());
+		((TextView) rootView.findViewById(R.id.offer_detail_depots)).setMovementMethod(new ScrollingMovementMethod());
+		((TextView) rootView.findViewById(R.id.offer_detail_stores)).setMovementMethod(new ScrollingMovementMethod());
+		((ImageView) rootView.findViewById(R.id.offer_detail_goToShop)).setOnClickListener(new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mOffer.getURL()));
+				getActivity().startActivity(browserIntent);					
+			}
+		});	
     }
 }
