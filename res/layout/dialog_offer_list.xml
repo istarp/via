@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100pt"
+    android:orientation="vertical" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="horizontal"
+    android:layout_weight="1" >
+    
+     	<TextView
+	        android:id="@+id/offerLimit_label"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:text="@string/offer_limit_label"
+	        android:layout_weight="1" 
+	        android:gravity="center"/>
+     	        
+	    <Spinner
+	        android:id="@+id/offerLimit"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_weight="2"
+	        android:gravity="center"
+	        />
+	    
+    </LinearLayout>
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="horizontal" 
+    android:layout_weight="1">
+    
+     	<TextView
+	        android:id="@+id/offerAtStore_label"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_weight="1"
+	        android:gravity="center"/>
+        
+	    <CheckBox
+     	    android:id="@+id/offerAtStore"
+     	    android:layout_width="0dp"
+     	    android:layout_height="match_parent"
+     	    android:text="@string/offer_at_store_label" 
+     	    android:layout_weight="2"
+     	    android:gravity="center_vertical|left"/>
+	    
+    </LinearLayout>
+    
+</LinearLayout>

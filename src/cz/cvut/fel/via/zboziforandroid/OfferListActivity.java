@@ -5,11 +5,14 @@ import cz.cvut.fel.via.zboziforandroid.client.items.ItemsResponse;
 import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
 import cz.cvut.fel.via.zboziforandroid.client.products.Products;
 import cz.cvut.fel.via.zboziforandroid.model.Database;
+import cz.cvut.fel.via.zboziforandroid.model.OfferListDialog;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
+import android.app.DialogFragment;
 import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +29,7 @@ import android.widget.TextView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-public class OfferListActivity extends FragmentActivity implements OfferListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
+public class OfferListActivity extends FragmentActivity implements OfferListDialog.NoticeDialogListener, OfferListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener {
 		
     private boolean mTwoPane;
     private SearchView mSearchView; 
@@ -124,6 +127,10 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
 				//NavUtils.navigateUpTo(this, new Intent(this, ProductListActivity.class));
 				finish();
 				return (true);
+			case R.id.action_filter_set:
+	        	OfferListDialog dialog = new OfferListDialog();
+	            dialog.show(getFragmentManager(), "OfferListDialog");         	        		
+	    		return true;
 			case R.id.action_sort:			
 	        	OfferListFragment offerListFragment = new OfferListFragment();
 	        	Bundle b = getIntent().getExtras();
@@ -151,8 +158,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         this.mMenu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_offer_list, menu);        
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        searchItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);               
+        MenuItem searchItem = menu.findItem(R.id.action_search);                      
         mSearchView = (SearchView) searchItem.getActionView();  
         mSearchView.setOnQueryTextListener(this);               
         mSearchView.setOnQueryTextFocusChangeListener(this);  
@@ -283,8 +289,12 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-            	ViaClientHttp c = new ViaClientHttp();	      	
-		      	ItemsResponse response = c.getItems(id, 1, 10, "", false, "", false, -1, false, false);
+            	ViaClientHttp c = new ViaClientHttp();
+            	SharedPreferences settings = getSharedPreferences(Database.settingsPreferences, MODE_PRIVATE);
+		      	ItemsResponse response = c.getItems(id, 1, 
+		      			settings.getInt(Database.itemLimit, 10),
+		      			"", false, "", false, -1, false,
+		      			settings.getBoolean(Database.itemAtStoreOnly, false));
 		      	if (response != null && response.getItems() != null){
 			      	Database.fillItems(response.getItems());
 	                handler.post(new Runnable() {
@@ -311,6 +321,21 @@ public class OfferListActivity extends FragmentActivity implements OfferListFrag
             }
         };
         new Thread(runnable).start();    	
-    }    
+    }
+
+	@Override
+	public void onDialogPositiveClick(DialogFragment dialog) {
+		android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+		ProgressFragment progressFragment = new ProgressFragment();
+		progressFragment.setArguments(new Bundle());
+    	ft.replace(R.id.offer_list_container, progressFragment, "progressFragment");        		
+		ft.commit();
+		loadItems();		
+	}
+
+	@Override
+	public void onDialogNegativeClick(DialogFragment dialog) {		
+	}    
 
 }
