@@ -61,7 +61,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 		// XXXXXXX
 		QueryDatabase.refreshQueries();
-		Utils.loadUserSearchedWords(loadUserEmail());
+		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		// XXXXXXX
 
 		this.setPreferences();
@@ -134,7 +134,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 	private void doSearch(String query) {
 		QueryDatabase.saveQuerry(query);
-		Utils.saveSearchedWord(loadUserEmail(),query);
+		Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()),query);
 		Intent listIntent = new Intent(this, ProductListActivity.class);
 		listIntent.putExtra(ProductListActivity.SEARCHED_STRING, query);		
 		startActivity(listIntent);
@@ -237,19 +237,6 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		prefEditor.putBoolean(Const.itemAtStoreOnly, false);
 		prefEditor.putBoolean(Const.itemListSorted, true);
 		prefEditor.commit();
-	}
-
-	private String loadUserEmail() {
-		String possibleEmail = "";
-		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-		Account[] accounts = AccountManager.get(getBaseContext()).getAccounts();
-		for (Account account : accounts) {
-			if (emailPattern.matcher(account.name).matches()) {
-				possibleEmail = account.name;
-				break;
-			}
-		}
-		return possibleEmail;
 	}
 
 }
