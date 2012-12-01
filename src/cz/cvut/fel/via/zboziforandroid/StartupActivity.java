@@ -1,11 +1,9 @@
 
 package cz.cvut.fel.via.zboziforandroid;
 
-<<<<<<< HEAD
+
 import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
 import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
-=======
->>>>>>> 0e33809b689c1410c6862584aed961f1e29594b1
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
