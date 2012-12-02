@@ -88,6 +88,8 @@
         <item>@string/offer_direction_0</item>
         <item>@string/offer_direction_1</item>               
     </string-array>
-    <string name="offer_direction_label">Směr řazení:</string>    
+    <string name="offer_direction_label">Směr řazení:</string>
+    
+    <string name="no_result_text">Na dotaz \"%1$s\" jsme nenalezli žádnou nabídku.</string>
     
 </resources>

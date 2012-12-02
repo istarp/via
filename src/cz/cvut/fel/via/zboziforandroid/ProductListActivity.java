@@ -214,14 +214,21 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	                    @Override
 	                    public void run() {
 	                    	if(editAble){
-		                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+	                    		android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
 		                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-		                		ProductListFragment productListFragment = new ProductListFragment();
-		                    	productListFragment.setArguments(new Bundle());
-		                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
-		                		ft.commit();
-		                		if(Database.PRODUCTS.isEmpty())
-		                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    		if(!Database.PRODUCTS.isEmpty()){
+			                		ProductListFragment productListFragment = new ProductListFragment();
+			                    	productListFragment.setArguments(new Bundle());
+			                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        					                		
+	                    		}else{
+	                    			//Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    			NoResultsFragment noResultsFragment = new NoResultsFragment();
+	                    			Bundle b = new Bundle();
+	                    			b.putString(NoResultsFragment.NO_RESULTS_QUERY, searchedString);
+	                    			noResultsFragment.setArguments(b);
+			                    	ft.replace(R.id.product_list_container, noResultsFragment, "noResultsFragment");
+	                    		}		                		
+	                    		ft.commit();	
 	                    	}
 	                    }
 	                });
