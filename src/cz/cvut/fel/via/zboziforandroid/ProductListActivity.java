@@ -34,7 +34,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     private Menu mMenu;    
     private String searchedString = "";
     private Context context;
-    public static Handler productListCallback;
+    public static Handler productListCallback;    
+    private boolean editAble = true;
     
     public static String SEARCHED_STRING = "searched_string";    
     
@@ -197,29 +198,33 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	                productListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
-	                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
-	                		ProductListFragment productListFragment = new ProductListFragment();
-	                    	productListFragment.setArguments(new Bundle());
-	                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
-	                		ft.commit();
-	                		if(Database.PRODUCTS.isEmpty())
-	                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    	if(editAble){
+		                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
+		                		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
+		                		ProductListFragment productListFragment = new ProductListFragment();
+		                    	productListFragment.setArguments(new Bundle());
+		                    	ft.replace(R.id.product_list_container, productListFragment, "productListFragment");        		
+		                		ft.commit();
+		                		if(Database.PRODUCTS.isEmpty())
+		                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    	}
 	                    }
 	                });
 		      	}else{
 		      		productListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-	                    	getFragmentManager().beginTransaction().replace(R.id.product_list_container, new Fragment()).commit();
-	                    	Database.clearProducts();
+	                    	if(editAble){
+		                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+		                    	getFragmentManager().beginTransaction().replace(R.id.product_list_container, new Fragment()).commit();
+	                    	}
+		                    Database.clearProducts();	                    	
 	                    }
 	                });
 		      	}
             }
         };
-        new Thread(runnable).start();    	
+        new Thread(runnable).start();        
     }
 
 	@Override
@@ -263,6 +268,12 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
 		}
-	}	
+	}
+	
+	@Override
+	public void onDestroy(){		
+		editAble = false;
+		super.onDestroy();
+	}
 
 }

@@ -45,6 +45,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
     private Context context;
     private SharedPreferences settings;
     public static Handler offerListCallback;
+    private boolean editAble = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -273,17 +274,20 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                    	((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.VISIBLE);
-	                        TextView productDescription = (TextView) findViewById(R.id.productOverview_description);                       
-	                        productDescription.setText(Database.PRODUCT.getDescription());
+	                    	if(editAble){
+		                    	((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.VISIBLE);
+		                        TextView productDescription = (TextView) findViewById(R.id.productOverview_description);                       
+		                        productDescription.setText(Database.PRODUCT.getDescription());
+	                    	}
 	                    }
 	                });
 		      	}else{
 	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-	                    	Database.clearProduct();
+	                    	if (editAble)
+		                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+	                    	Database.clearProduct();	                    	
 	                    }
 	                });		      		
 		      	}
@@ -306,17 +310,21 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                        refreshList();
-	                		if(Database.ITEMS.isEmpty())
-	                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    	if (editAble){
+		                        refreshList();
+		                		if(Database.ITEMS.isEmpty())
+		                			Toast.makeText(context, context.getResources().getString(R.string.no_results), Toast.LENGTH_LONG).show();
+	                    	}
 	                    }
 	                });
 		      	}else{
 		      		offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
-	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
-	                    	getFragmentManager().beginTransaction().replace(R.id.offer_list_container, new Fragment()).commit();
+	                    	if (editAble){
+		                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
+		                    	getFragmentManager().beginTransaction().replace(R.id.offer_list_container, new Fragment()).commit();
+	                    	}
 	                    	Database.clearItems();
 	                    }
 	                });
@@ -398,6 +406,12 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	@Override
+	public void onDestroy(){		
+		editAble = false;
+		super.onDestroy();
 	}	
 	
 
