@@ -44,14 +44,14 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
     private boolean listReady = true;
     private Context context;
     private SharedPreferences settings;
-    public static Handler callback;
+    public static Handler offerListCallback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_offer_list); 
         
-        callback = new Handler() {
+        offerListCallback = new Handler() {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == 0){
@@ -61,6 +61,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
         };
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
         
         if (savedInstanceState == null) {
         	ProgressFragment progressFragment = new ProgressFragment();
@@ -189,6 +190,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	
 	@Override
 	public void onResume() {
+		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		if(mMenu != null){
 			collapseSearchMenu();
 		}
@@ -268,7 +270,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		      	if (response != null && response.getProductAttributes() != null){
 			      	Database.fillProduct(response.getProductAttributes());
 			      	productReady = true;		      	
-	                callback.post(new Runnable() {
+	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.VISIBLE);
@@ -277,7 +279,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    }
 	                });
 		      	}else{
-	                callback.post(new Runnable() {
+	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -301,7 +303,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		      			settings.getBoolean(Const.itemAtStoreOnly, false));
 		      	if (response != null && response.getItems() != null){
 			      	Database.fillItems(response.getItems());
-	                callback.post(new Runnable() {
+	                offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                        refreshList();
@@ -310,7 +312,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    }
 	                });
 		      	}else{
-		      		callback.post(new Runnable() {
+		      		offerListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -387,7 +389,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 				Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()), text);
 				Intent listIntent = new Intent(this, ProductListActivity.class);
 				listIntent.putExtra(ProductListActivity.SEARCHED_STRING, text);
-				ProductListActivity.callback.sendEmptyMessage(0);
+				ProductListActivity.productListCallback.sendEmptyMessage(0);
 				startActivity(listIntent);
 				finish();
 			} else {

@@ -29,6 +29,7 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
         setContentView(R.layout.activity_offer_detail);        
         
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
         
         if (savedInstanceState == null) {
         	if (getIntent().getExtras().containsKey(OfferDetailFragment.OFFER_ID)){
@@ -118,6 +119,7 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
 	
 	@Override
 	public void onResume() {
+		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		if(mMenu != null){
 			collapseSearchMenu();
 		}
@@ -158,8 +160,8 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
 				Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()), text);
 				Intent listIntent = new Intent(this, ProductListActivity.class);
 				listIntent.putExtra(ProductListActivity.SEARCHED_STRING, text);
-				ProductListActivity.callback.sendEmptyMessage(0);
-				OfferListActivity.callback.sendEmptyMessage(0);
+				ProductListActivity.productListCallback.sendEmptyMessage(0);
+				OfferListActivity.offerListCallback.sendEmptyMessage(0);
 				startActivity(listIntent);
 				finish();
 			} else {

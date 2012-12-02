@@ -19,12 +19,11 @@ public class Utils {
 				public void run() {
 					ZboziForAndroidClient c = new ZboziForAndroidClient();
 					WordResponse response = c.getWords(email);
+					QueryDatabase.refreshQueries();
 					if (response != null && response.getWords() != null) {
 						for (Word word : response.getWords()) {
 							QueryDatabase.saveQuerry(word.getWord());
 						}
-					} else {
-						QueryDatabase.refreshQueries();
 					}
 				}
 			};

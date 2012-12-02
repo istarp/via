@@ -40,8 +40,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_startup);
 
-		new QueryDatabase(getApplicationContext());	
-		QueryDatabase.refreshQueries();
+		new QueryDatabase(getApplicationContext());			
 		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		this.setPreferences();
 
@@ -166,6 +165,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 	@Override
 	public void onResume() {
+		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		if (mMenu != null) {
 			collapseSearchMenu();
 			searchedString.setText("");

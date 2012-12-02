@@ -34,7 +34,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     private Menu mMenu;    
     private String searchedString = "";
     private Context context;
-    public static Handler callback;
+    public static Handler productListCallback;
     
     public static String SEARCHED_STRING = "searched_string";    
     
@@ -43,7 +43,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
         
-        callback = new Handler() {
+        productListCallback = new Handler() {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 if (msg.what == 0){
@@ -52,6 +52,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
             }
         };
 
+        Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
         getActionBar().setDisplayHomeAsUpEnabled(true);                                              
         
         if (savedInstanceState == null){    	     
@@ -154,6 +155,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	
 	@Override
 	public void onResume() {
+		Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
 		if(mMenu != null){
 			collapseSearchMenu();
 		}
@@ -192,7 +194,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		      			settings.getInt(Const.productMaxPrice, -1));            	
 		      	if (response != null && response.getProducts() != null){
 			      	Database.fillProducts(response.getProducts());
-	                callback.post(new Runnable() {
+	                productListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
@@ -206,7 +208,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	                    }
 	                });
 		      	}else{
-		      		callback.post(new Runnable() {
+		      		productListCallback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -261,6 +263,6 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		} else {
 			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
 		}
-	}
+	}	
 
 }
