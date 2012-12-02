@@ -37,6 +37,32 @@
     android:layout_weight="1">
     
      	<TextView
+	        android:id="@+id/offerDirection_label"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:text="@string/product_direction_label"
+	        android:layout_weight="1" 
+	        android:gravity="center"
+	        android:textSize="15dp"/>
+        
+	    <Spinner
+	        android:id="@+id/offerDirection"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent" 
+	        android:layout_weight="2"
+	        android:gravity="center"
+	        android:textSize="15dp"
+	        />
+	    
+    </LinearLayout>    
+    
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="horizontal" 
+    android:layout_weight="1">
+    
+     	<TextView
 	        android:id="@+id/offerAtStore_label"
 	        android:layout_width="0dp"
 	        android:layout_height="match_parent" 

@@ -7,6 +7,12 @@
     	android:showAsAction="ifRoom|collapseActionView"    	
     />
     
+    <item android:id="@+id/action_sort"
+    	android:title="@string/product_direction_0"
+    	android:icon="@drawable/ic_menu_sort_by_size_down"
+    	android:showAsAction="ifRoom|collapseActionView"
+    />
+    
     <item android:id="@+id/action_search"
           android:title="@string/search_label"
           android:icon="@android:drawable/ic_menu_search"

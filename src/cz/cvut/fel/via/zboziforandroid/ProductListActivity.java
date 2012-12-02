@@ -36,6 +36,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
     private Context context;
     public static Handler productListCallback;    
     private boolean editAble = true;
+    private SharedPreferences settings;
     
     public static String SEARCHED_STRING = "searched_string";    
     
@@ -54,7 +55,8 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         };
 
         Utils.loadUserSearchedWords(Utils.getEmail(getApplicationContext()));
-        getActionBar().setDisplayHomeAsUpEnabled(true);                                              
+        getActionBar().setDisplayHomeAsUpEnabled(true); 
+        settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);
         
         if (savedInstanceState == null){    	     
         	        	
@@ -113,7 +115,21 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	        case R.id.action_filter_set:
 	        	ProductListDialog dialog = new ProductListDialog();
 	            dialog.show(getFragmentManager(), "ProductListDialog");         	        		
-	    		return true;       		
+	    		return true;
+	        case R.id.action_sort:
+				SharedPreferences.Editor prefEditor = settings.edit();
+				if(settings.getInt(Const.productDirection, 0) == 0){
+					item.setTitle(getResources().getString(R.string.product_direction_0));
+					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
+					prefEditor.putInt(Const.productDirection, 1);			    	
+				}else{
+					item.setTitle(getResources().getString(R.string.product_direction_1));
+					item.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
+					prefEditor.putInt(Const.productDirection, 0);			    	
+				}	
+				prefEditor.commit();
+				this.refreshList();
+				return (true);
         	case android.R.id.home:
         		finish();
                 return true;
@@ -185,8 +201,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-            	ViaClientHttp c = new ViaClientHttp();
-            	SharedPreferences settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);  
+            	ViaClientHttp c = new ViaClientHttp();            	 
 		      	ProductsResponse response = c.getProducts(searchedString, 1, 
 		      			settings.getInt(Const.productLimit, 10), 
 		      			Const.PRODUCT_CRITERIONS[settings.getInt(Const.productCriterion, 0)], 
@@ -229,6 +244,14 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
+		MenuItem sortItem = mMenu.findItem(R.id.action_sort); 
+		if(settings.getInt(Const.productDirection, 0) == 0){
+        	sortItem.setTitle(getResources().getString(R.string.product_direction_1));
+        	sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
+		}else{
+			sortItem.setTitle(getResources().getString(R.string.product_direction_0));
+			sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
+		}
 		refreshList();
 	}
 	

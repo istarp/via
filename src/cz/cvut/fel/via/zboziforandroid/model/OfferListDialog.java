@@ -23,6 +23,7 @@ public class OfferListDialog extends DialogFragment{
 	
     private NoticeDialogListener mListener;
     private Spinner offerLimit;
+    private Spinner offerDirection;
     private CheckBox offerAtStore;
     private SharedPreferences settings;
     
@@ -54,6 +55,10 @@ public class OfferListDialog extends DialogFragment{
                 	   SharedPreferences.Editor prefEditor = settings.edit();  
                    	   prefEditor.putInt(Const.itemLimit, Integer.parseInt(offerLimit.getSelectedItem().toString()));
                    	   prefEditor.putBoolean(Const.itemAtStoreOnly, offerAtStore.isChecked());
+                   	   switch (offerDirection.getSelectedItemPosition()){
+                   	   case 0: prefEditor.putBoolean(Const.itemListSorted, true); break;
+                   	   default:prefEditor.putBoolean(Const.itemListSorted, false); break;
+                   	   }
                    	   prefEditor.commit();                		
             		   mListener.onDialogPositiveClick(OfferListDialog.this);                	                  	                         
                    }
@@ -74,7 +79,18 @@ public class OfferListDialog extends DialogFragment{
         offerLimit.setAdapter(adapter);
         
         int position = adapter.getPosition(Integer.toString(settings.getInt(Const.itemLimit, 10)));
-        offerLimit.setSelection(position);        
+        offerLimit.setSelection(position);     
+        
+        offerDirection = (Spinner) layout.findViewById(R.id.offerDirection);
+        adapter = ArrayAdapter.createFromResource(getActivity(), R.array.offer_direction_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);     
+        offerDirection.setAdapter(adapter);
+        
+        if (settings.getBoolean(Const.itemListSorted, true))
+        	position = adapter.getPosition(getResources().getString(R.string.offer_direction_0));
+        else
+        	position = adapter.getPosition(getResources().getString(R.string.offer_direction_1));
+        offerDirection.setSelection(position);
         
         offerAtStore = (CheckBox) layout.findViewById(R.id.offerAtStore);        
         

@@ -203,7 +203,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 	private void setPreferences() {
 		SharedPreferences settings = getSharedPreferences(Const.settingsPreferences, MODE_PRIVATE);
 		SharedPreferences.Editor prefEditor = settings.edit();
-		prefEditor.putInt(Const.productDirection, 0);
+		prefEditor.putInt(Const.productDirection, 1);
 		prefEditor.putInt(Const.productCriterion, 0);
 		prefEditor.putInt(Const.productLimit, 10);
 		prefEditor.putInt(Const.productMaxPrice, -1);

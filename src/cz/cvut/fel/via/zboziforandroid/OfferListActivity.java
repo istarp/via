@@ -343,6 +343,14 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		progressFragment.setArguments(new Bundle());
     	ft.replace(R.id.offer_list_container, progressFragment, "progressFragment");        		
 		ft.commit();
+		MenuItem sortItem = mMenu.findItem(R.id.action_sort); 
+		if(!settings.getBoolean(Const.itemListSorted, true)){
+        	sortItem.setTitle(getResources().getString(R.string.sort_down));
+        	sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_down));					
+		}else{
+			sortItem.setTitle(getResources().getString(R.string.sort_up));
+			sortItem.setIcon(getResources().getDrawable(R.drawable.ic_menu_sort_by_size_up));					
+		}
 		loadItems();		
 	}
 
@@ -412,7 +420,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	public void onDestroy(){		
 		editAble = false;
 		super.onDestroy();
-	}	
+	}		
 	
 
 }
