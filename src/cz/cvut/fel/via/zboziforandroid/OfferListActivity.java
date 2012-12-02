@@ -1,5 +1,6 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.client.Utils;
 import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
 import cz.cvut.fel.via.zboziforandroid.client.items.ItemsResponse;
 import cz.cvut.fel.via.zboziforandroid.client.product.ProductResponse;
@@ -15,9 +16,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,18 +38,27 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		
     private boolean mTwoPane;
     private SearchView mSearchView; 
-    private Menu mMenu; 
-    private Handler handler;
+    private Menu mMenu;     
     private int id; 
     private boolean productReady = true;
     private boolean listReady = true;
     private Context context;
     private SharedPreferences settings;
+    public static Handler callback;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_offer_list);        
+        setContentView(R.layout.activity_offer_list); 
+        
+        callback = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0){
+                	finish();
+                }
+            }
+        };
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         
@@ -55,8 +68,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
             getFragmentManager().beginTransaction().add(R.id.offer_list_container, progressFragment).commit();            
         }
         
-        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);
-        this.handler = new Handler();        
+        this.id = getIntent().getExtras().getInt(ProductListFragment.PRODUCT_ID);               
         this.listReady = false;
         this.productReady = false;
         this.context = getApplicationContext();
@@ -90,13 +102,13 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
             Cursor cursor = managedQuery(uri, null, null, null, null);
             if (cursor != null) {            	
                 cursor.moveToFirst();
-                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
-                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);                
+                checkSearch(cursor.getString(wIndex));
             }
         }
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+            checkSearch(query);
         }
     }
 
@@ -256,7 +268,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		      	if (response != null && response.getProductAttributes() != null){
 			      	Database.fillProduct(response.getProductAttributes());
 			      	productReady = true;		      	
-	                handler.post(new Runnable() {
+	                callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	((ImageView) findViewById(R.id.productOverview_arrow)).setVisibility(View.VISIBLE);
@@ -265,7 +277,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    }
 	                });
 		      	}else{
-	                handler.post(new Runnable() {
+	                callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -289,7 +301,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		      			settings.getBoolean(Const.itemAtStoreOnly, false));
 		      	if (response != null && response.getItems() != null){
 			      	Database.fillItems(response.getItems());
-	                handler.post(new Runnable() {
+	                callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                        refreshList();
@@ -298,7 +310,7 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 	                    }
 	                });
 		      	}else{
-		      		handler.post(new Runnable() {
+		      		callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -357,6 +369,33 @@ public class OfferListActivity extends FragmentActivity implements OfferListDial
 		offerListFragment.setArguments(getIntent().getExtras());                                        		
     	ft.replace(R.id.offer_list_container, offerListFragment, "offerListFragment");        		
 		ft.commit();
+	}
+	
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}	
+	
+	private void checkSearch(String text){
+		if (text.length() > 0) {
+			if (isOnline()) {
+				QueryDatabase.saveQuerry(text);
+				Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()), text);
+				Intent listIntent = new Intent(this, ProductListActivity.class);
+				listIntent.putExtra(ProductListActivity.SEARCHED_STRING, text);
+				ProductListActivity.callback.sendEmptyMessage(0);
+				startActivity(listIntent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
+		}
 	}	
 	
 

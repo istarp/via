@@ -1,5 +1,6 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.client.Utils;
 import cz.cvut.fel.via.zboziforandroid.client.ViaClientHttp;
 import cz.cvut.fel.via.zboziforandroid.client.products.ProductsResponse;
 import cz.cvut.fel.via.zboziforandroid.model.Const;
@@ -13,9 +14,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,17 +31,26 @@ import android.widget.Toast;
 public class ProductListActivity extends FragmentActivity implements ProductListFragment.Callbacks, SearchView.OnQueryTextListener, View.OnFocusChangeListener, ProductListDialog.NoticeDialogListener {
 	
     private SearchView mSearchView; 
-    private Menu mMenu; 
-    private Handler handler;
+    private Menu mMenu;    
     private String searchedString = "";
     private Context context;
+    public static Handler callback;
     
     public static String SEARCHED_STRING = "searched_string";    
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_product_list);        
+        setContentView(R.layout.activity_product_list);
+        
+        callback = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (msg.what == 0){
+                	finish();
+                }
+            }
+        };
 
         getActionBar().setDisplayHomeAsUpEnabled(true);                                              
         
@@ -47,8 +60,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
         	progressFragment.setArguments(new Bundle());
             getFragmentManager().beginTransaction().add(R.id.product_list_container, progressFragment).commit();                                    
             
-            this.searchedString = getIntent().getExtras().getString(SEARCHED_STRING);
-            this.handler = new Handler();
+            this.searchedString = getIntent().getExtras().getString(SEARCHED_STRING);            
             this.context = getApplicationContext();
             this.loadProducts();            
             
@@ -74,13 +86,13 @@ public class ProductListActivity extends FragmentActivity implements ProductList
             Cursor cursor = managedQuery(uri, null, null, null, null);
             if (cursor != null) {            	
                 cursor.moveToFirst();
-                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
-                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();                          	
+                int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);                
+                checkSearch(cursor.getString(wIndex));
             }
         }
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+            checkSearch(query);
         }
     }    
 
@@ -180,7 +192,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 		      			settings.getInt(Const.productMaxPrice, -1));            	
 		      	if (response != null && response.getProducts() != null){
 			      	Database.fillProducts(response.getProducts());
-	                handler.post(new Runnable() {
+	                callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                        android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
@@ -194,7 +206,7 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 	                    }
 	                });
 		      	}else{
-		      		handler.post(new Runnable() {
+		      		callback.post(new Runnable() {
 	                    @Override
 	                    public void run() {
 	                    	Toast.makeText(context, context.getResources().getString(R.string.connection_problem), Toast.LENGTH_LONG).show();
@@ -210,6 +222,10 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 
 	@Override
 	public void onDialogPositiveClick(DialogFragment dialog) {
+		refreshList();
+	}
+	
+	private void refreshList(){
 		android.app.FragmentTransaction ft = getFragmentManager().beginTransaction();        	
 		ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
 		ProgressFragment progressFragment = new ProgressFragment();
@@ -221,6 +237,30 @@ public class ProductListActivity extends FragmentActivity implements ProductList
 
 	@Override
 	public void onDialogNegativeClick(DialogFragment dialog) {				
+	}
+	
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}	
+	
+	private void checkSearch(String text){
+		if (text.length() > 0) {
+			if (isOnline()) {
+				searchedString = text;
+				QueryDatabase.saveQuerry(text);
+				Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()), text);
+				refreshList();
+			} else {
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
+		}
 	}
 
 }

@@ -55,7 +55,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
-						checkSearch();
+						checkSearch(searchedString.getText().toString());
 					return true;
 				}
 				return false;
@@ -66,7 +66,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		searchButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				checkSearch();
+				checkSearch(searchedString.getText().toString());
 			}
 		});
 
@@ -85,13 +85,13 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 			Cursor cursor = managedQuery(uri, null, null, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
-				int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
-				Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+				int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);				
+				checkSearch(cursor.getString(wIndex));
 			}
 		}
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String query = intent.getStringExtra(SearchManager.QUERY);
-			Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+			String query = intent.getStringExtra(SearchManager.QUERY);			
+			checkSearch(query);
 		}
 	}
 
@@ -160,7 +160,7 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 
 	@Override
 	public boolean onQueryTextSubmit(String arg0) {
-		collapseSearchMenu();
+		//collapseSearchMenu();
 		return false;
 	}
 
@@ -214,10 +214,10 @@ public class StartupActivity extends FragmentActivity implements SearchView.OnQu
 		prefEditor.commit();
 	}
 	
-	private void checkSearch(){
-		if (searchedString.getText().length() > 0) {
+	private void checkSearch(String text){
+		if (text.length() > 0) {
 			if (isOnline()) {
-				doSearch(searchedString.getText().toString());
+				doSearch(text);
 			} else {
 				Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
 			}

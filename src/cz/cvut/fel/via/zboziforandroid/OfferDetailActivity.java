@@ -1,10 +1,13 @@
 package cz.cvut.fel.via.zboziforandroid;
 
+import cz.cvut.fel.via.zboziforandroid.client.Utils;
 import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -56,12 +59,12 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
             if (cursor != null) {            	
                 cursor.moveToFirst();
                 int wIndex = cursor.getColumnIndexOrThrow(QueryDatabase.KEY_WORD);
-                Toast.makeText(getApplicationContext(), cursor.getString(wIndex), Toast.LENGTH_SHORT).show();
+                checkSearch(cursor.getString(wIndex));
             }
         }
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(getApplicationContext(), query, Toast.LENGTH_SHORT).show();
+            checkSearch(query);
         }
     }
 
@@ -137,6 +140,34 @@ public class OfferDetailActivity extends FragmentActivity implements SearchView.
     @Override
     public boolean onSearchRequested() {
     	return true;
-    }    
+    } 
+    
+	public boolean isOnline() {
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+			return true;
+		}
+		return false;
+	}	
+	
+	private void checkSearch(String text){
+		if (text.length() > 0) {
+			if (isOnline()) {
+				QueryDatabase.saveQuerry(text);
+				Utils.saveSearchedWord(Utils.getEmail(getApplicationContext()), text);
+				Intent listIntent = new Intent(this, ProductListActivity.class);
+				listIntent.putExtra(ProductListActivity.SEARCHED_STRING, text);
+				ProductListActivity.callback.sendEmptyMessage(0);
+				OfferListActivity.callback.sendEmptyMessage(0);
+				startActivity(listIntent);
+				finish();
+			} else {
+				Toast.makeText(getApplicationContext(), getResources().getString(R.string.not_online), Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(getApplicationContext(), getResources().getString(R.string.no_input), Toast.LENGTH_LONG).show();
+		}
+	}    
 
 }

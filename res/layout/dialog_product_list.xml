@@ -16,7 +16,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_limit_label"
 	        android:layout_weight="1" 
-	        android:gravity="center"/>
+	        android:gravity="center"
+	        android:textSize="15dp"/>
      	        
 	    <Spinner
 	        android:id="@+id/productLimit"
@@ -24,6 +25,7 @@
 	        android:layout_height="match_parent" 
 	        android:layout_weight="2"
 	        android:gravity="center"
+	        android:textSize="15dp"
 	        />
 	    
     </LinearLayout>
@@ -40,7 +42,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_criterion_label"
 	        android:layout_weight="1" 
-	        android:gravity="center"/>
+	        android:gravity="center"
+	        android:textSize="15dp"/>
         
 	    <Spinner
 	        android:id="@+id/productCriterion"
@@ -48,6 +51,7 @@
 	        android:layout_height="match_parent" 
 	        android:layout_weight="2"
 	        android:gravity="center"
+	        android:textSize="15dp"
 	        />
 	    
     </LinearLayout>   
@@ -64,7 +68,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_direction_label"
 	        android:layout_weight="1" 
-	        android:gravity="center"/>
+	        android:gravity="center"
+	        android:textSize="15dp"/>
         
 	    <Spinner
 	        android:id="@+id/productDirection"
@@ -72,6 +77,7 @@
 	        android:layout_height="match_parent" 
 	        android:layout_weight="2"
 	        android:gravity="center"
+	        android:textSize="15dp"
 	        />
 	    
     </LinearLayout>  
@@ -88,7 +94,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_price_label" 
 	        android:layout_weight="1"
-	        android:gravity="center"/>
+	        android:gravity="center"
+	        android:textSize="15dp"/>
         
 	    <CheckBox
      	    android:id="@+id/productPrice"
@@ -96,7 +103,8 @@
      	    android:layout_height="match_parent"
      	    android:text="@string/product_price" 
      	    android:layout_weight="2"
-     	    android:gravity="center_vertical|left"/>
+     	    android:gravity="center_vertical|left"
+     	    android:textSize="15dp"/>
 	    
     </LinearLayout>
     
@@ -114,7 +122,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_price_from" 
 	        android:layout_weight="1"
-	        android:gravity="center"/> 
+	        android:gravity="center"
+	        android:textSize="15dp"/> 
 	        
         	<EditText
      	    android:id="@+id/productPrice_from"
@@ -123,7 +132,8 @@
      	    android:layout_weight="2"
      	    android:inputType="number"
      	    android:ems="10" 
-     	    android:gravity="center"     	    />
+     	    android:gravity="center" 
+     	    android:textSize="15dp"    	    />
         	        	
     
     </LinearLayout>
@@ -141,7 +151,8 @@
 	        android:layout_height="match_parent"
 	        android:text="@string/product_price_to" 
 	        android:layout_weight="1"
-	        android:gravity="center"/> 
+	        android:gravity="center"
+	        android:textSize="15dp"/> 
 	        
         	<EditText
      	    android:id="@+id/productPrice_to"
@@ -150,7 +161,8 @@
      	    android:layout_weight="2"
      	    android:inputType="number"
      	    android:ems="10" 
-     	    android:gravity="center"/>
+     	    android:gravity="center"
+     	    android:textSize="15dp"/>
         	        	
     
     </LinearLayout>   
