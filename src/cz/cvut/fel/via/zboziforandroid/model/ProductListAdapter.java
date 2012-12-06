@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
 import android.widget.TextView;
 
 public class ProductListAdapter extends ArrayAdapter<Products>{
@@ -54,6 +55,7 @@ public class ProductListAdapter extends ArrayAdapter<Products>{
 		
 		Products product = this.products.get(position);
         holder.productName.setText(product.getProductName());
+        
         if (product.getImg() == null){
         	holder.productImage.setImageDrawable(context.getResources().getDrawable(R.drawable.no_image));
         }else{

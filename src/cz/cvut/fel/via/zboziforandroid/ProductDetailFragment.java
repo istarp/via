@@ -45,6 +45,7 @@ public class ProductDetailFragment extends Fragment {
     		else
     			((ImageView) rootView.findViewById(R.id.prodcut_detail_image)).setImageDrawable(getResources().getDrawable(R.drawable.no_image));    	
     	((TextView) rootView.findViewById(R.id.prodcut_detail_name)).setText(mProduct.getProductName());
+    	((TextView) rootView.findViewById(R.id.prodcut_detail_name)).setMovementMethod(new ScrollingMovementMethod());
     	((TextView) rootView.findViewById(R.id.prodcut_detail_price_from)).setText(preparePrice(mProduct.getMinPrice()));
     	((TextView) rootView.findViewById(R.id.prodcut_detail_price_to)).setText(preparePrice(mProduct.getMaxPrice()));
     	((TextView) rootView.findViewById(R.id.prodcut_detail_description)).setText(mProduct.getDescription());

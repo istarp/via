@@ -5,7 +5,8 @@
    android:minHeight="70dp" 
    android:orientation="horizontal"    
    android:background="@drawable/list_selector" 
-   android:paddingLeft="10dp"    
+   android:paddingLeft="10dp"
+   android:paddingRight="10dp"    
    >
 
    <LinearLayout
