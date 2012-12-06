@@ -3,7 +3,7 @@
     <item android:id="@+id/action_search"
           android:title="@string/search_label"          
           android:icon="@android:drawable/ic_menu_search"  
-          android:showAsAction="collapseActionView|ifRoom"        
+          android:showAsAction="collapseActionView|always"        
           android:actionViewClass="android.widget.SearchView"
           
           />
