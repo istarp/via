@@ -5,8 +5,7 @@
    android:minHeight="70dp" 
    android:orientation="horizontal"    
    android:background="@drawable/list_selector" 
-   android:paddingLeft="10dp"
-   android:paddingRight="10dp"    
+   android:paddingLeft="10dp"  
    >
 
    <LinearLayout
@@ -129,7 +128,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:contentDescription="@string/productRow_image"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:src="@drawable/button_selector"
         />
