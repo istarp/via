@@ -10,7 +10,7 @@ import cz.cvut.fel.via.zboziforandroid.model.QueryDatabase;
 
 public class Utils {
 
-	public final static String WORDS_API_URL = "http://46.255.228.229:8080";
+	public final static String WORDS_API_URL = "http://46.255.228.231:8080";
 
 	public static void loadUserSearchedWords(final String email) {
 		if (email != null && email != "") {
